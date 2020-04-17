@@ -11,6 +11,7 @@ export async function handleMessage(msg: Message) {
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
+        // TODO: Make those with Moderator/Executive roles automatically an admin
         user = await createUser(authorId)
     }
 
@@ -30,11 +31,7 @@ export async function handleMessage(msg: Message) {
 }
 
 function shouldRespond(msg: Message) {
-    // TODO: Verify correct channel
-    // if (msg.channel.id !== 'progress-reporting') return false
-    if (!msg.content.startsWith('!')) return false
-
-    return true
+    return msg.content.startsWith('!')
 }
 
 function getInvocationFromMessage(input: string): string {

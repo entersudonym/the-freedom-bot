@@ -6,7 +6,14 @@ enum Invocations {
     Workout = 'workout',
     Gratefulness = 'gratefulness',
     Journal = 'journal',
-    SetDay = 'setday'
+    SetDay = 'setday',
+
+    Relapse = 'relapse',
+    GetDay = 'getday',
+    GetScore = 'getscore',
+
+    AdminViewScore = 'viewscore',
+    AdminViewStreak = 'viewstreak'
 }
 
 export default Invocations
