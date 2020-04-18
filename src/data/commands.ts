@@ -66,7 +66,7 @@ const commands: ICommand[] = [
         points: 0.5,
         isDaily: true,
         isAdmin: false
-    }
+    } // TODO: InfoInvocation commands need to be added here.
 ]
 
 interface ICommand {
