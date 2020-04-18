@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert } from 'typeorm'
-import Invocations from '../data/invocations'
+import { Invocations } from '../data/invocations'
 
 @Entity()
 export class Command extends BaseEntity {

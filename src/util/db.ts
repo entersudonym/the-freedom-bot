@@ -1,6 +1,6 @@
 import { User } from '../entity/User'
 import { Command } from '../entity/Command'
-import Invocations from '../data/invocations'
+import { Invocations } from '../data/invocations'
 import { Report } from '../entity/Report'
 
 export async function getLastSetDay(user: User) {

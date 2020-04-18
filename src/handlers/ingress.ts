@@ -3,6 +3,7 @@ import { Command } from '../entity/Command'
 import { User } from '../entity/User'
 import { createUser } from '../scripts/users'
 import handlers from './handlers'
+import { Invocations, InfoInvocations } from '../data/invocations'
 
 export async function handleMessage(msg: Message) {
     if (!shouldRespond(msg)) return
@@ -26,7 +27,7 @@ export async function handleMessage(msg: Message) {
         return msg.reply('command not found.')
     }
 
-    const cmd = await Command.findOne({ invocation })
+    const cmd = await getCommandFromInvocation(invocation)
     handler.evaluate(user, cmd, msg)
 }
 
@@ -37,4 +38,17 @@ function shouldRespond(msg: Message) {
 function getInvocationFromMessage(input: string): string {
     const withoutExclamation = input.substring(1)
     return withoutExclamation.split(' ')[0]
+}
+
+async function getCommandFromInvocation(invocation: string): Promise<Command | null> {
+    // A relapse is really just a SetDay back to 0 with additional consequences. Its implemented
+    // like a SetDay at the database level, but sets the user's rank/points back some more. That's
+    // why the associated command is a SetDay but its Handler is a RegressionHandler.
+    if (invocation === InfoInvocations.Relapse) invocation = Invocations.SetDay
+
+    if (Object.values(Invocations).includes(invocation)) {
+        return await Command.findOne({ invocation })
+    } else {
+        return null
+    }
 }

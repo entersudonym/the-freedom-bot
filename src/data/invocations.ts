@@ -1,4 +1,4 @@
-enum Invocations {
+export enum Invocations {
     MakeBed = 'make_bed',
     Affirmation = 'affirmation',
     ColdShower = 'cold_shower',
@@ -6,14 +6,16 @@ enum Invocations {
     Workout = 'workout',
     Gratefulness = 'gratefulness',
     Journal = 'journal',
-    SetDay = 'setday',
+    SetDay = 'setday'
+}
 
+export enum InfoInvocations {
     Relapse = 'relapse',
+    Emergency = 'emergency',
+    Leaderboard = 'leaderboard',
+    Ranks = 'ranks',
     GetDay = 'getday',
     GetScore = 'getscore',
-
     AdminViewScore = 'viewscore',
     AdminViewStreak = 'viewstreak'
 }
-
-export default Invocations

@@ -9,8 +9,12 @@ export class Rank extends BaseEntity {
     name: string
 
     @Column()
-    lowerBound: number
+    level: number
 
     @Column()
+    lowerBound: number
+
+    // Allow nullability for the highest-rank
+    @Column({ nullable: true })
     upperBound: number
 }

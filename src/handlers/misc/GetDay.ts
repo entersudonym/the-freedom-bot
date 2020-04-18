@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import Invocations from '../../data/invocations'
+import { Invocations } from '../../data/invocations'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import { getLastSetDay } from '../../util/db'
@@ -20,6 +20,6 @@ export default class GetDayHandler extends AbstractHandler {
         }
 
         // TODO: Include the date on which the last set-day was.
-        return msg.reply(`your last recorded day was day ${lastSetDay.day}`)
+        return msg.reply(`your last recorded day was day ${lastSetDay.day}.`)
     }
 }

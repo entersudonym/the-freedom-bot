@@ -2,11 +2,13 @@ import AbstractHandler from './abstract/AbstractHandler'
 import DefaultDiscipline from './daily/DefaultDiscipline'
 import SetDayHandler from './daily/SetDayHandler'
 import ViewScoreHandler from './admin/ViewScore'
-import Invocations from '../data/invocations'
+import { Invocations, InfoInvocations } from '../data/invocations'
 import ViewStreakHandler from './admin/ViewStreak'
 import GetDayHandler from './misc/GetDay'
 import GetScoreHandler from './misc/GetScore'
 import RegressionHandler from './misc/Regression'
+import EmergencyHandler from './misc/Emergency'
+import LeaderboardHandler from './misc/Leaderboard'
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -20,14 +22,14 @@ handlers.set(Invocations.Meditation, DailyDisciplineHandler)
 handlers.set(Invocations.Workout, DailyDisciplineHandler)
 // TODO: Verify that people sent a message in journals!
 handlers.set(Invocations.Journal, DailyDisciplineHandler)
-
-// TODO: Make non-report invocations part of an InfoInvocation enum
 handlers.set(Invocations.SetDay, new SetDayHandler())
-handlers.set(Invocations.Relapse, new RegressionHandler())
-handlers.set(Invocations.GetDay, new GetDayHandler())
-handlers.set(Invocations.GetScore, new GetScoreHandler())
 
-handlers.set(Invocations.AdminViewScore, new ViewScoreHandler())
-handlers.set(Invocations.AdminViewStreak, new ViewStreakHandler())
+handlers.set(InfoInvocations.Relapse, new RegressionHandler())
+handlers.set(InfoInvocations.Leaderboard, new LeaderboardHandler())
+handlers.set(InfoInvocations.GetDay, new GetDayHandler())
+handlers.set(InfoInvocations.GetScore, new GetScoreHandler())
+handlers.set(InfoInvocations.AdminViewScore, new ViewScoreHandler())
+handlers.set(InfoInvocations.AdminViewStreak, new ViewStreakHandler())
+handlers.set(InfoInvocations.Emergency, new EmergencyHandler())
 
 export default handlers
