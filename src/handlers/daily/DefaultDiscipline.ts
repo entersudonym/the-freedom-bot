@@ -5,6 +5,10 @@ import AbstractHandler from '../abstract/AbstractHandler'
 import { Report } from '../../entity/Report'
 
 export default class DefaultDiscipline extends AbstractHandler {
+    public constructor() {
+        // Always re-rank for daily disciplines, and never check for mentions.
+        super(true, false)
+    }
     protected async handler(user: User, cmd: Command, msg: Message): Promise<void> {
         // TODO: Ensure that they haven't already run this in the past day
         // TODO: That probably needs to be put in some sort of other service ^

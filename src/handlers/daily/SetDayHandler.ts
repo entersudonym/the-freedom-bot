@@ -3,8 +3,13 @@ import { Command } from '../../entity/Command'
 import { Report } from '../../entity/Report'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
+import { getLastSetDay } from '../../util/db'
 
 export default class SetDayHandler extends AbstractHandler {
+    public constructor() {
+        super(true, false)
+    }
+
     /**
      * Creates a Report and updates the users' points for setting their day. Returns the new number
      * of points a user has.
@@ -36,17 +41,20 @@ export default class SetDayHandler extends AbstractHandler {
         const dayString = content.substr(content.lastIndexOf(' ') + 1)
         const day = parseInt(dayString)
 
-        // TODO: Allow people to set day to 0?
         if (isNaN(day) || day < 0) {
             // Invalid day (parsing-wise)
             return msg.reply(`${dayString} is an invalid day. Try a whole number instead.`)
         }
 
-        const lastSetDay = await Report.findOne({ user, command: cmd }, { order: { date: 'DESC' } })
+        const lastSetDay = await getLastSetDay(user)
 
         if (!lastSetDay) {
             // User is setting their day for the first time
             const totalPoints = await this.addReportAndUpdateUser(user, cmd, day, day)
+            if (day === 0) {
+                return msg.reply(`your day has been set to 0. Get excited to make some progress!`)
+            }
+
             return msg.reply(
                 `good job on setting your day for the first time. You now have ${totalPoints} points.`
             )

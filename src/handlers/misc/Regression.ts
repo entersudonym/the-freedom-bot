@@ -5,6 +5,10 @@ import AbstractHandler from '../abstract/AbstractHandler'
 import { Report } from '../../entity/Report'
 
 export default class RegressionHandler extends AbstractHandler {
+    public constructor() {
+        super(false, false)
+    }
+
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
         const existingPoints = user.points
         const pointsToRemove = Math.floor(existingPoints / 2)

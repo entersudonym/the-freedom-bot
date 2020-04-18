@@ -6,7 +6,11 @@ import { getLastSetDay } from '../../util/db'
 import AbstractHandler from '../abstract/AbstractHandler'
 
 export default class GetDayHandler extends AbstractHandler {
-    protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
+    public constructor() {
+        super(false, false)
+    }
+
+    protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {
         const lastSetDay = await getLastSetDay(user)
 
         if (!lastSetDay) {
