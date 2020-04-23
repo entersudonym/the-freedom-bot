@@ -24,7 +24,9 @@ export default class RegressionHandler extends AbstractHandler {
         user.points = user.points - pointsToRemove
         await user.save()
 
-        // TODO: Show them something inspirational.
+        // TODO(N): Show them something inspirational.
+        // Probably want to make a module that will fetch a URL from the NoFap website. Take a peek
+        // at Emergency.ts to see how we do it.
         // TODO: Write a message formatter that deals with formatting floating points/embeds.
         return msg.reply(
             `your relapse has been recorded. You lost ${pointsToRemove} points and now have ${user.points.toFixed(

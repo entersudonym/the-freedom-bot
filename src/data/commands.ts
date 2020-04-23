@@ -1,4 +1,4 @@
-import { Invocations } from './invocations'
+import { Invocations, InfoInvocations } from './invocations'
 
 const commands: ICommand[] = [
     {
@@ -72,7 +72,7 @@ const commands: ICommand[] = [
 interface ICommand {
     name: string
     description: string
-    invocation: Invocations
+    invocation: Invocations | InfoInvocations
     points: number
     isDaily: boolean
     isAdmin: boolean

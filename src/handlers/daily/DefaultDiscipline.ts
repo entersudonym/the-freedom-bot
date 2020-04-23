@@ -10,7 +10,7 @@ export default class DefaultDiscipline extends AbstractHandler {
         super(true, false)
     }
     protected async handler(user: User, cmd: Command, msg: Message): Promise<void> {
-        // TODO: Ensure that they haven't already run this in the past day
+        // TODO(1): Ensure that they haven't already run this in the past day
         // TODO: That probably needs to be put in some sort of other service ^
         const pointsToAward = cmd.points
 

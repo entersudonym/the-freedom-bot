@@ -12,11 +12,11 @@ export async function handleMessage(msg: Message) {
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
-        // TODO: Make those with Moderator/Executive roles automatically an admin
+        // TODO(1): Make those with Moderator/Executive roles automatically an admin
         user = await createUser(authorId)
     }
 
-    // TODO: Ensure that they have set their day
+    // TODO(1): Ensure that they have set their day
 
     // Get the appropriate handler, instantiate it, and run an evaluation
     const invocation = getInvocationFromMessage(msg.content)

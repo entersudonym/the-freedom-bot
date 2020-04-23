@@ -30,7 +30,7 @@ export default abstract class AbstractHandler {
         this.handler(user, cmd, msg)
 
         if (this.shouldRerank) {
-            // TODO: Rerank the user.
+            // TODO(1): Rerank the user.
         }
     }
 }

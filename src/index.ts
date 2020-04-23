@@ -23,10 +23,10 @@ init().then(async () => {
     })
 
     client.on('guildMemberAdd', member => {
-        // TODO: Send them an introduction message!
+        // TODO(1): Send them an introduction message!
     })
 
     client.on('guildMemberRemove', member => {
-        // TODO: Send the admin channel a notification!
+        // TODO(1): Send the admin channel a notification!
     })
 })
