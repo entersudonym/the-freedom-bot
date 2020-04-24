@@ -6,7 +6,7 @@ import { Message } from 'discord.js'
 export default abstract class AbstractAdminHandler extends AbstractHandler {
     public async evaluate(user: User, cmd: Command, msg: Message): Promise<any> {
         if (user.isAdmin) {
-            this.handler(user, cmd, msg)
+            super.evaluate(user, cmd, msg)
         } else {
             msg.reply('that command is reserved solely for admins.')
         }
