@@ -20,7 +20,7 @@ export class Command extends BaseEntity {
     })
     invocation: string
 
-    @Column({ type: 'float', nullable: true }) // Allow nullability for info or admin-only commands
+    @Column({ type: 'float', nullable: true }) // Allow nullability for info or info commands
     points: number
 
     @Column()

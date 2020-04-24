@@ -73,7 +73,7 @@ interface ICommand {
     name: string
     description: string
     invocation: Invocations | InfoInvocations
-    points: number
+    points: number | null
     isDaily: boolean
     isAdmin: boolean
 }
