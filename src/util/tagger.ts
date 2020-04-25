@@ -17,3 +17,8 @@ export function tagC(id: string): string {
 export function tagU(id: string): string {
     return `<@${id}>`
 }
+
+// Tags a role, given its ID
+export function tagR(id: string): string {
+    return `<@&${id}>`
+}

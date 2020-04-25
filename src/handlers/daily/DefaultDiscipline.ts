@@ -25,6 +25,8 @@ export default class DefaultDiscipline extends AbstractHandler {
         user.points = user.points + pointsToAward
         await user.save()
 
-        msg.reply('successfully added points to your account. Now you have ' + user.points)
+        msg.reply(
+            `successfully added points to your account. You now have ${user.points} point(s).`
+        )
     }
 }

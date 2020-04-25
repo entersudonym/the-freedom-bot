@@ -4,6 +4,9 @@ import { User } from '../entity/User'
 import { createUser } from '../scripts/users'
 import handlers from './handlers'
 import { Invocations, InfoInvocations } from '../data/invocations'
+import { getLastSetDay } from '../util/db'
+import { MiscServerRoles } from '../data/roles'
+import { hasRole } from '../util/discord'
 
 export async function handleMessage(msg: Message) {
     if (!shouldRespond(msg)) return
@@ -12,14 +15,19 @@ export async function handleMessage(msg: Message) {
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
-        // TODO(1): Make those with Moderator/Executive roles automatically an admin
-        user = await createUser(authorId)
+        const isAdmin = hasRole(msg.member, [MiscServerRoles.Admin])
+        user = await createUser(authorId, isAdmin)
     }
-
-    // TODO(1): Ensure that they have set their day
 
     // Get the appropriate handler, instantiate it, and run an evaluation
     const invocation = getInvocationFromMessage(msg.content)
+
+    const lastSetDay = await getLastSetDay(user)
+    if (invocation !== Invocations.SetDay && !lastSetDay) {
+        return msg.reply(
+            `you need to set your day first using the **!${Invocations.SetDay} <day>** command.`
+        )
+    }
 
     const handler = handlers.get(invocation)
     if (!handler) {

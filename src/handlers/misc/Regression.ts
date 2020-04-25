@@ -1,12 +1,21 @@
 import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
+import { User as DiscordUser } from 'discord.js'
 import AbstractHandler from '../abstract/AbstractHandler'
 import { Report } from '../../entity/Report'
 
 export default class RegressionHandler extends AbstractHandler {
     public constructor() {
         super(false, false)
+    }
+
+    protected async rerank(
+        discordUser: DiscordUser,
+        prevPoints: number,
+        newPoints: number
+    ): Promise<void> {
+        console.log('This is an unimplemented regression rerank handler!')
     }
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {

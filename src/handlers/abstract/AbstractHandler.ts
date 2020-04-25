@@ -1,6 +1,7 @@
 import { Message } from 'discord.js'
 import { User } from '../../entity/User'
 import { Command } from '../../entity/Command'
+import { User as DiscordUser } from 'discord.js'
 
 export default abstract class AbstractHandler {
     /**
@@ -13,6 +14,14 @@ export default abstract class AbstractHandler {
     public constructor(protected shouldRerank: boolean, protected verifyMention: boolean) {}
 
     protected abstract async handler(user: User, cmd: Command, msg: Message): Promise<void>
+
+    protected async rerank(
+        discordUser: DiscordUser,
+        prevPoints: number,
+        newPoints: number
+    ): Promise<void> {
+        console.log('Should do reranking here!')
+    }
 
     public async evaluate(user: User, cmd: Command, msg: Message): Promise<any> {
         if (this.verifyMention) {
@@ -27,10 +36,11 @@ export default abstract class AbstractHandler {
             }
         }
 
+        const prevPoints = user.points
         this.handler(user, cmd, msg)
 
         if (this.shouldRerank) {
-            // TODO(1): Rerank the user.
+            this.rerank(msg.author, prevPoints, user.points)
         }
     }
 }
