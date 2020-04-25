@@ -3,6 +3,8 @@ import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import config from './config/config'
 import { handleMessage } from './handlers/ingress'
+import { getExitMessage, getWelcomeMessage } from './data/messages'
+import { getChannelFromClient } from './util/discord'
 const client = new Discord.Client()
 
 // Initializes the connection to Discord and the database
@@ -19,14 +21,16 @@ init().then(async () => {
             return handleMessage(msg)
         }
 
-        // TODO: Record messages from gratitude/affirmations/journal channels
+        // TODO(2): Record messages from gratitude/affirmations/journal channels
     })
 
     client.on('guildMemberAdd', member => {
-        // TODO(1): Send them an introduction message!
+        const channel = getChannelFromClient(client, config.channels.newComers)
+        ;(channel as Discord.TextChannel).send(getWelcomeMessage((member.user as Discord.User).id))
     })
 
-    client.on('guildMemberRemove', member => {
-        // TODO(1): Send the admin channel a notification!
+    client.on('guildMemberRemove', async member => {
+        const channel = getChannelFromClient(client, config.channels.adminChannel)
+        ;(channel as Discord.TextChannel).send(getExitMessage((member.user as Discord.User).id))
     })
 })

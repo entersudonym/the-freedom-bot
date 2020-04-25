@@ -14,6 +14,64 @@ export enum StreakNames {
     Year1Plus = '1 Year+'
 }
 
+export default [
+    {
+        name: StreakNames.Day0,
+        lowerBound: 0,
+        upperBound: 1
+    },
+    {
+        name: StreakNames.Day1,
+        lowerBound: 1,
+        upperBound: 2
+    },
+    {
+        name: StreakNames.Days2To3,
+        lowerBound: 2,
+        upperBound: 4
+    },
+    {
+        name: StreakNames.Days4To7,
+        lowerBound: 4,
+        upperBound: 8
+    },
+    {
+        name: StreakNames.Days8To15,
+        lowerBound: 8,
+        upperBound: 16
+    },
+    {
+        name: StreakNames.Days16To30,
+        lowerBound: 16,
+        upperBound: 31
+    },
+    {
+        name: StreakNames.Days31To60,
+        lowerBound: 31,
+        upperBound: 61
+    },
+    {
+        name: StreakNames.Days61To90,
+        lowerBound: 61,
+        upperBound: 91
+    },
+    {
+        name: StreakNames.Days91To180,
+        lowerBound: 91,
+        upperBound: 181
+    },
+    {
+        name: StreakNames.Days181ToYear,
+        lowerBound: 181,
+        upperBound: 365
+    },
+    {
+        name: StreakNames.Year1Plus,
+        lowerBound: 365,
+        upperBound: Infinity
+    }
+] as IStreak[]
+
 interface IStreak extends IRange {
     name: StreakNames
     lowerBound: number

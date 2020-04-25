@@ -19,14 +19,12 @@ export class Report extends BaseEntity {
     @JoinColumn()
     user: User
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { nullable: true })
     @JoinColumn()
-    @Column({ nullable: true })
     adminCreator: User
 
-    @ManyToOne(() => Command)
+    @ManyToOne(() => Command, { nullable: true })
     @JoinColumn()
-    @Column({ nullable: true }) // Nullable if report issued by an admin
     command: Command
 
     @Column({ type: 'float' })
