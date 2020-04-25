@@ -4,10 +4,13 @@ import { Report } from '../../entity/Report'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
 import { getLastSetDay } from '../../util/db'
+import moment = require('moment')
+import { tagR } from '../../util/tagger'
+import { MiscServerRoles } from '../../data/roles'
 
 export default class SetDayHandler extends AbstractHandler {
     public constructor() {
-        super(true, false)
+        super(true, false, false)
     }
 
     /**
@@ -65,6 +68,19 @@ export default class SetDayHandler extends AbstractHandler {
         if (lastDay >= day) {
             return msg.reply(
                 `your last-recorded day is ${lastDay}. You must !relapse or set something higher.`
+            )
+        }
+
+        // Verify that the date isn't wildly more than it's supposed to be.
+        const desiredNewDays = day - lastDay
+        const actualElapsedDays = moment(lastSetDay.date).diff(moment(), 'days')
+        if (desiredNewDays > actualElapsedDays + 2) {
+            const mod = MiscServerRoles.Moderator
+            return msg.reply(
+                `you should be at around day ${lastDay +
+                    actualElapsedDays}, so you can't set yourself to day ${day}. Contact a ${tagR(
+                    mod
+                )} if you need assistance.`
             )
         }
 

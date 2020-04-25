@@ -8,3 +8,7 @@ export async function getLastSetDay(user: User) {
     const command = await Command.findOne({ invocation: Invocations.SetDay })
     return await Report.findOne({ user, command }, { order: { date: 'DESC' } })
 }
+
+export async function getLastReport(user: User, command: Command) {
+    return (await Report.findOne({ user, command }, { order: { date: 'DESC' } })) || null
+}

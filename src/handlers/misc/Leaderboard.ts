@@ -5,7 +5,7 @@ import AbstractHandler from '../abstract/AbstractHandler'
 
 export default class LeaderboardHandler extends AbstractHandler {
     public constructor() {
-        super(false, false)
+        super(false, false, false)
     }
 
     protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {

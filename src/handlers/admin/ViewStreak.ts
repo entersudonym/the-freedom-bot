@@ -6,7 +6,7 @@ import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
 
 export default class ViewStreakHandler extends AbstractAdminHandler {
     public constructor() {
-        super(false, true)
+        super(false, false, true)
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {

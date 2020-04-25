@@ -7,7 +7,7 @@ import { Report } from '../../entity/Report'
 export default class DefaultDiscipline extends AbstractHandler {
     public constructor() {
         // Always re-rank for daily disciplines, and never check for mentions.
-        super(true, false)
+        super(true, true, false)
     }
     protected async handler(user: User, cmd: Command, msg: Message): Promise<void> {
         // TODO(1): Ensure that they haven't already run this in the past day

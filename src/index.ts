@@ -18,9 +18,12 @@ init().then(async () => {
 
     client.on('message', msg => {
         if (msg.channel.id === config.channels.progressReporting) {
-            return handleMessage(msg)
+            try {
+                handleMessage(msg)
+            } catch (e) {
+                msg.channel.send(`There was an error with the bot.`)
+            }
         }
-
         // TODO(2): Record messages from gratitude/affirmations/journal channels
     })
 

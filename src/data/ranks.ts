@@ -146,7 +146,7 @@ export default [
     }
 ] as IRank[]
 
-interface IRank extends IRange {
+export interface IRank extends IRange {
     name: RankNames
     value: number
 }

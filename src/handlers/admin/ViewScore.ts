@@ -6,7 +6,7 @@ import { Report } from '../../entity/Report'
 
 export default class ViewScoreHandler extends AbstractAdminHandler {
     public constructor() {
-        super(false, true)
+        super(false, false, true)
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {
