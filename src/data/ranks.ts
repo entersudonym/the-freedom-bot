@@ -20,7 +20,12 @@ export enum RankNames {
     Legatus = 'Legatus',
     Navarch = 'Navarch',
     Polemarch = 'Polemarch',
-    Strategos = 'Strategos'
+    Strategos = 'Strategos',
+    Knight = 'Knight',
+    Sultan = 'Sultan',
+    Kensei = 'Kensei',
+    Augustus = 'Augustus',
+    Dominus = 'Dominus'
 }
 
 export default [
@@ -142,6 +147,36 @@ export default [
         name: RankNames.Strategos,
         value: 19,
         lowerBound: 808,
+        upperBound: 1000
+    },
+    {
+        name: RankNames.Knight,
+        value: 20,
+        lowerBound: 808,
+        upperBound: 1250
+    },
+    {
+        name: RankNames.Sultan,
+        value: 21,
+        lowerBound: 1250,
+        upperBound: 1500
+    },
+    {
+        name: RankNames.Kensei,
+        value: 22,
+        lowerBound: 1500,
+        upperBound: 1750
+    },
+    {
+        name: RankNames.Augustus,
+        value: 23,
+        lowerBound: 1750,
+        upperBound: 2000
+    },
+    {
+        name: RankNames.Dominus,
+        value: 22,
+        lowerBound: 2000,
         upperBound: Infinity
     }
 ] as IRank[]
