@@ -66,7 +66,87 @@ const commands: ICommand[] = [
         points: 0.5,
         isDaily: true,
         isAdmin: false
-    } // TODO: InfoInvocation commands need to be added here.
+    },
+    {
+        name: 'Emergency',
+        description: 'Get emergency motivation.',
+        invocation: InfoInvocations.Emergency,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Get Day',
+        description: 'Get the last day you set for your NoFap streak.',
+        invocation: InfoInvocations.GetDay,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Get Score',
+        description: 'Get your current score.',
+        invocation: InfoInvocations.GetScore,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Leaderboard',
+        description: "See a leaderboard with everyone's points and relative positions.",
+        invocation: InfoInvocations.Leaderboard,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Leaderboard',
+        description: "See a leaderboard with everyone's points and relative positions.",
+        invocation: InfoInvocations.Leaderboard,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'List',
+        description: 'See a list of all the commands this bot supports.',
+        invocation: InfoInvocations.List,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Ranks',
+        description: 'See a list of all the ranks that you can achieve.',
+        invocation: InfoInvocations.Ranks,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Relapse',
+        description: 'Record a relapse as defined by our agreed-upon rules.',
+        invocation: InfoInvocations.Relapse,
+        points: null, // Dynamically figured out by the handler
+        isDaily: false,
+        isAdmin: false
+    },
+    {
+        name: 'Admin View Score',
+        description: 'View the score of any member by running the command and tagging them.',
+        invocation: InfoInvocations.AdminViewScore,
+        points: null,
+        isDaily: false,
+        isAdmin: true
+    },
+    {
+        name: 'Admin View Streak',
+        description: 'View the streak of any member by running the command and tagging them.',
+        invocation: InfoInvocations.AdminViewStreak,
+        points: null,
+        isDaily: false,
+        isAdmin: true
+    }
 ]
 
 interface ICommand {

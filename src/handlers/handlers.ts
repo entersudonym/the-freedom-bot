@@ -9,6 +9,7 @@ import GetScoreHandler from './misc/GetScore'
 import RegressionHandler from './misc/Regression'
 import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
+import ListHandler from './misc/List'
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -26,6 +27,7 @@ handlers.set(Invocations.SetDay, new SetDayHandler())
 
 handlers.set(InfoInvocations.Relapse, new RegressionHandler())
 handlers.set(InfoInvocations.Leaderboard, new LeaderboardHandler())
+handlers.set(InfoInvocations.List, new ListHandler())
 handlers.set(InfoInvocations.GetDay, new GetDayHandler())
 handlers.set(InfoInvocations.GetScore, new GetScoreHandler())
 handlers.set(InfoInvocations.AdminViewScore, new ViewScoreHandler())

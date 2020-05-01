@@ -2,13 +2,13 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { Report } from '../../entity/Report'
 import { User } from '../../entity/User'
-import AbstractHandler from '../abstract/AbstractHandler'
+import AbstractDayHandler from '../abstract/AbstractDayHandler'
 import { getLastSetDay } from '../../util/db'
 import moment = require('moment')
 import { tagR } from '../../util/tagger'
 import { MiscServerRoles } from '../../data/roles'
 
-export default class SetDayHandler extends AbstractHandler {
+export default class SetDayHandler extends AbstractDayHandler {
     public constructor() {
         super(true, false, false)
     }
@@ -73,6 +73,7 @@ export default class SetDayHandler extends AbstractHandler {
 
         // Verify that the date isn't wildly more than it's supposed to be.
         const desiredNewDays = day - lastDay
+        // TODO: This sometimes goes negative. Fix?
         const actualElapsedDays = moment(lastSetDay.date).diff(moment(), 'days')
         if (desiredNewDays > actualElapsedDays + 2) {
             const mod = MiscServerRoles.Moderator
@@ -84,9 +85,9 @@ export default class SetDayHandler extends AbstractHandler {
             )
         }
 
-        // TODO: Verify that the user's day is not wildly more than what its supposed to be.
         const newPoints = day - lastDay // guaranteed to be positive
         const totalPoints = await this.addReportAndUpdateUser(user, cmd, day, newPoints)
+        await this.rerankStreaks(msg.member, lastDay, day)
         return msg.reply(
             `congrats on reaching day ${day}. You earned ${newPoints} new point(s) and now have ${totalPoints} points total.`
         )

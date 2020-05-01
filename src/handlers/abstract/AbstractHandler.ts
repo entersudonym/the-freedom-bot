@@ -4,7 +4,7 @@ import { Command } from '../../entity/Command'
 import { GuildMember } from 'discord.js'
 import { findRangeEntity } from '../../util/rangeFinder'
 import Ranks, { IRank } from '../../data/ranks'
-import { getChannelFromClient } from '../../util/discord'
+import { getChannelFromClient, getRole } from '../../util/discord'
 import config from '../../config/config'
 import { tagU } from '../../util/tagger'
 import { Report } from '../../entity/Report'
@@ -38,24 +38,26 @@ export default abstract class AbstractHandler {
         const newRank = findRangeEntity(newPoints, Ranks) as IRank
 
         if (prevRank.name !== newRank.name) {
-            // TODO(1): Role stuff needs to be fixed!
-            // const rolesToRemove = await discordUser.guild.roles.fetch(prevRank.name)
-            // await discordUser.roles.remove([rolesToRemove])
-            // await discordUser.roles.add(await discordUser.guild.roles.fetch(newRank.name))
+            const roles = discordUser.guild.roles.cache
+            const roleToRemove = getRole(roles, prevRank.name)
+            const roleToAdd = getRole(roles, newRank.name)
+
+            await discordUser.roles.remove(roleToRemove)
+            await discordUser.roles.add(roleToAdd)
 
             const mainChat = getChannelFromClient(discordUser.client, config.channels.mainChat)
             if (newRank.value > prevRank.value) {
                 // They've leveled up
                 ;(mainChat as TextChannel).send(
-                    `Good news! ${tagU(discordUser.user.username)} leveled up to ${
+                    `Good news! ${tagU(discordUser.user.id)} leveled up from ${prevRank.name} to ${
                         newRank.name
-                    } from ${prevRank.name}.`
+                    }.`
                 )
             } else {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 ;(mainChat as TextChannel).send(
-                    `Looks like ${tagU(discordUser.user.username)} leveled down from ${
+                    `Attention! ${tagU(discordUser.user.id)} leveled down from ${
                         prevRank.name
                     } to ${newRank.name} due to a relapse. Send some words of encouragement!`
                 )
@@ -99,8 +101,6 @@ export default abstract class AbstractHandler {
         await this.handler(user, cmd, msg)
 
         if (this.shouldRerank) {
-            console.log('reranking')
-            console.log(prevPoints, user.points)
             this.rerank(msg.member, prevPoints, user.points)
         }
     }

@@ -11,6 +11,7 @@ export enum Invocations {
 
 export enum InfoInvocations {
     Relapse = 'relapse',
+    List = 'list',
     Emergency = 'emergency',
     Leaderboard = 'leaderboard',
     Ranks = 'ranks',

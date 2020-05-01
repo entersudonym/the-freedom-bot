@@ -22,17 +22,17 @@ export async function handleMessage(msg: Message) {
     // Get the appropriate handler, instantiate it, and run an evaluation
     const invocation = getInvocationFromMessage(msg.content)
 
+    const handler = handlers.get(invocation)
+    if (!handler) {
+        // TODO: Smart suggest some things that they might have intended to write.
+        return msg.reply('command not found.')
+    }
+
     const lastSetDay = await getLastSetDay(user)
     if (invocation !== Invocations.SetDay && !lastSetDay) {
         return msg.reply(
             `you need to set your day first using the **!${Invocations.SetDay} <day>** command.`
         )
-    }
-
-    const handler = handlers.get(invocation)
-    if (!handler) {
-        // TODO: Smart suggest some things that they might have intended to write.
-        return msg.reply('command not found.')
     }
 
     const cmd = await getCommandFromInvocation(invocation)

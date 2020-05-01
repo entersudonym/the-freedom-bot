@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert } from 'typeorm'
-import { Invocations } from '../data/invocations'
+import { Invocations, InfoInvocations } from '../data/invocations'
 
 @Entity()
 export class Command extends BaseEntity {
@@ -14,7 +14,7 @@ export class Command extends BaseEntity {
 
     @Column({
         type: 'enum',
-        enum: Invocations,
+        enum: { ...Invocations, ...InfoInvocations },
         nullable: false,
         unique: true
     })
