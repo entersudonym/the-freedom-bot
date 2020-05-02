@@ -22,6 +22,7 @@ export default abstract class AbstractHandler {
      * contains a mention.
      */
     public constructor(
+        protected adminOnly: boolean,
         protected shouldRerank: boolean,
         protected ensureDayElapsed: boolean,
         protected verifyMention: boolean
@@ -37,11 +38,13 @@ export default abstract class AbstractHandler {
         const prevRank = findRangeEntity(prevPoints, Ranks) as IRank
         const newRank = findRangeEntity(newPoints, Ranks) as IRank
 
+        console.log(prevRank, newRank)
         if (prevRank.name !== newRank.name) {
             const roles = discordUser.guild.roles.cache
             const roleToRemove = getRole(roles, prevRank.name)
             const roleToAdd = getRole(roles, newRank.name)
 
+            // TODO: Ensure you aren't hitting rate limits.
             await discordUser.roles.remove(roleToRemove)
             await discordUser.roles.add(roleToAdd)
 
@@ -57,9 +60,9 @@ export default abstract class AbstractHandler {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 ;(mainChat as TextChannel).send(
-                    `Attention! ${tagU(discordUser.user.id)} leveled down from ${
-                        prevRank.name
-                    } to ${newRank.name} due to a relapse. Send some words of encouragement!`
+                    `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
+                        newRank.name
+                    } due to a relapse.`
                 )
             }
         }
@@ -76,6 +79,11 @@ export default abstract class AbstractHandler {
     }
 
     public async evaluate(user: User, cmd: Command, msg: Message): Promise<any> {
+        if (this.adminOnly) {
+            if (!user.isAdmin) {
+                return msg.reply('that command is reserved solely for admins.')
+            }
+        }
         if (this.ensureDayElapsed) {
             const lastReport = await getLastReport(user, cmd)
 

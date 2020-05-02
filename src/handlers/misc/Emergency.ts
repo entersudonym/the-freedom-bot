@@ -7,7 +7,7 @@ import config from '../../config/config'
 
 export default class EmergencyHandler extends AbstractHandler {
     public constructor() {
-        super(false, false, false)
+        super(false, false, false, false)
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {

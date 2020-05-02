@@ -7,7 +7,7 @@ import { Report } from '../../entity/Report'
 export default class DefaultDiscipline extends AbstractHandler {
     public constructor() {
         // Always re-rank for daily disciplines, and never check for mentions.
-        super(true, true, false)
+        super(false, true, true, false)
     }
     protected async handler(user: User, cmd: Command, msg: Message): Promise<void> {
         const pointsToAward = cmd.points
@@ -24,7 +24,7 @@ export default class DefaultDiscipline extends AbstractHandler {
         await user.save()
 
         msg.reply(
-            `successfully added points to your account. You now have ${user.points} point(s).`
+            `successfully added ${pointsToAward} point(s) to your account. You now have ${user.points} point(s).`
         )
     }
 }

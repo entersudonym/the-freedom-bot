@@ -8,7 +8,7 @@ import { getLastSetDay } from '../../util/db'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
-        super(true, false, false)
+        super(false, true, false, false)
     }
 
     protected async rerank(

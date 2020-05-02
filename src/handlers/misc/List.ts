@@ -7,7 +7,7 @@ import { In } from 'typeorm'
 
 export default class ListHandler extends AbstractHandler {
     public constructor() {
-        super(false, false, false)
+        super(false, false, false, false)
     }
 
     // TODO: This really should be using `handlers`, as that's the canonical source of what we
@@ -26,14 +26,14 @@ export default class ListHandler extends AbstractHandler {
             admin: user.isAdmin ? '**Admin Commands**\n' : ''
         }
         for (let availableCommand of availableCommands) {
-            let row = `__${availableCommand.name}: !${availableCommand.invocation}__\n${availableCommand.description}\n\n`
+            let row = `__${availableCommand.name}: ${availableCommand.invocation}__\n${availableCommand.description}\n\n`
             if (availableCommand.isDaily) sections.daily += row
-            else if (availableCommand.isAdmin) sections.admin = row
+            else if (availableCommand.isAdmin) sections.admin += row
             else sections.misc += row
         }
 
         // Split so that we don't go over the 2000 character limit
-        let firstPart = `Here's a list of available commands.\n\n`
+        let firstPart = `Here's a list of available commands. Preface each with an exclamation mark to use it.\n\n`
         firstPart += sections.daily
         let secondPart = sections.misc + sections.admin
 

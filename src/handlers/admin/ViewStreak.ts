@@ -2,11 +2,11 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import { getLastSetDay } from '../../util/db'
-import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class ViewStreakHandler extends AbstractAdminHandler {
+export default class AdminViewStreakHandler extends AbstractHandler {
     public constructor() {
-        super(false, false, true)
+        super(true, false, false, true)
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {

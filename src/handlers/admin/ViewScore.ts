@@ -1,12 +1,11 @@
 import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
-import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
-import { Report } from '../../entity/Report'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class ViewScoreHandler extends AbstractAdminHandler {
+export default class AdminViewScoreHandler extends AbstractHandler {
     public constructor() {
-        super(false, false, true)
+        super(true, false, false, true)
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {

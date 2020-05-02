@@ -10,7 +10,7 @@ import { MiscServerRoles } from '../../data/roles'
 
 export default class SetDayHandler extends AbstractDayHandler {
     public constructor() {
-        super(true, false, false)
+        super(false, true, false, false)
     }
 
     /**

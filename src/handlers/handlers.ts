@@ -1,15 +1,16 @@
 import AbstractHandler from './abstract/AbstractHandler'
 import DefaultDiscipline from './daily/DefaultDiscipline'
 import SetDayHandler from './daily/SetDayHandler'
-import ViewScoreHandler from './admin/ViewScore'
+import AdminViewScoreHandler from './admin/ViewScore'
 import { Invocations, InfoInvocations } from '../data/invocations'
-import ViewStreakHandler from './admin/ViewStreak'
+import AdminViewStreakHandler from './admin/ViewStreak'
 import GetDayHandler from './misc/GetDay'
 import GetScoreHandler from './misc/GetScore'
 import RegressionHandler from './misc/Regression'
 import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
 import ListHandler from './misc/List'
+import AdminModifyScore from './admin/ModifyScore'
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -30,8 +31,9 @@ handlers.set(InfoInvocations.Leaderboard, new LeaderboardHandler())
 handlers.set(InfoInvocations.List, new ListHandler())
 handlers.set(InfoInvocations.GetDay, new GetDayHandler())
 handlers.set(InfoInvocations.GetScore, new GetScoreHandler())
-handlers.set(InfoInvocations.AdminViewScore, new ViewScoreHandler())
-handlers.set(InfoInvocations.AdminViewStreak, new ViewStreakHandler())
+handlers.set(InfoInvocations.AdminViewScore, new AdminViewScoreHandler())
+handlers.set(InfoInvocations.AdminViewStreak, new AdminViewStreakHandler())
+handlers.set(InfoInvocations.AdminModifyScore, new AdminModifyScore())
 handlers.set(InfoInvocations.Emergency, new EmergencyHandler())
 
 export default handlers

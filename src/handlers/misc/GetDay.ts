@@ -7,7 +7,7 @@ import AbstractHandler from '../abstract/AbstractHandler'
 
 export default class GetDayHandler extends AbstractHandler {
     public constructor() {
-        super(false, false, false)
+        super(false, false, false, false)
     }
 
     protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {
