@@ -38,7 +38,6 @@ export default abstract class AbstractHandler {
         const prevRank = findRangeEntity(prevPoints, Ranks) as IRank
         const newRank = findRangeEntity(newPoints, Ranks) as IRank
 
-        console.log(prevRank, newRank)
         if (prevRank.name !== newRank.name) {
             const roles = discordUser.guild.roles.cache
             const roleToRemove = getRole(roles, prevRank.name)
