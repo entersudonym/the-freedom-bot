@@ -26,7 +26,7 @@ export default class ListHandler extends AbstractHandler {
             admin: user.isAdmin ? '**Admin Commands**\n' : ''
         }
         for (let availableCommand of availableCommands) {
-            let row = `__${availableCommand.name}: ${availableCommand.invocation}__\n${availableCommand.description}\n\n`
+            let row = `__${availableCommand.name}: !${availableCommand.invocation}__\n${availableCommand.description}\n`
             if (availableCommand.isDaily) sections.daily += row
             else if (availableCommand.isAdmin) sections.admin += row
             else sections.misc += row

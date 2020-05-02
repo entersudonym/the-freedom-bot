@@ -8,7 +8,7 @@ import { tagC, tagU } from '../util/tagger'
 export function getWelcomeMessage(id: string) {
     return `Welcome to the Freedom Academy, ${tagU(id)}. Please read the ${tagC(
         config.channels.rules
-    )} channel and familiarize yourself with the performance standards of this server. Once you have read the material, post your introduction here, and an Admin will assign you your first rank.`
+    )} channel and familiarize yourself with the performance standards of this server. Once you have read the material, post your introduction here, and a Moderator will assign you your first rank.`
 }
 
 /**

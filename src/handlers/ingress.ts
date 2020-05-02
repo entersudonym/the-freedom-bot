@@ -15,7 +15,11 @@ export async function handleMessage(msg: Message) {
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
-        const isAdmin = hasRole(msg.member, [MiscServerRoles.Admin])
+        const isAdmin = hasRole(msg.member, [
+            MiscServerRoles.Moderator,
+            MiscServerRoles.Executive,
+            MiscServerRoles.Owner
+        ])
         user = await createUser(authorId, isAdmin)
     }
 
