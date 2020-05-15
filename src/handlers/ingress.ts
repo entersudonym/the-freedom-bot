@@ -58,7 +58,7 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // why the associated command is a SetDay but its Handler is a RegressionHandler.
     if (invocation === InfoInvocations.Relapse) invocation = Invocations.SetDay
 
-    if (Object.values(Invocations).includes(invocation)) {
+    if ((Object.values(Invocations) as string[]).includes(invocation)) {
         return await Command.findOne({ invocation })
     } else {
         return null
