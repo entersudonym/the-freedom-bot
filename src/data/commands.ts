@@ -100,14 +100,6 @@ const commands: ICommand[] = [
         isAdmin: false
     },
     {
-        name: 'Leaderboard',
-        description: "See a leaderboard with everyone's points and relative positions.",
-        invocation: InfoInvocations.Leaderboard,
-        points: null,
-        isDaily: false,
-        isAdmin: false
-    },
-    {
         name: 'List',
         description: 'See a list of all the commands this bot supports.',
         invocation: InfoInvocations.List,
