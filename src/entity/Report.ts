@@ -42,12 +42,12 @@ export class Report extends BaseEntity {
     @BeforeInsert()
     ensureInvariants() {
         if (this.isRegression) {
-            const negativePoints = this.points < 0
+            const leqZeroPoints = this.points <= 0
             const zeroDay = this.day === 0
 
-            if (!negativePoints || !zeroDay) {
+            if (!(leqZeroPoints && zeroDay)) {
                 throw new Error(
-                    `Cannot make regression report with non-negative points or non-zero day`
+                    `Regression reports must have negative points AND zero-day. Given: ${this.points} points and day ${this.day}`
                 )
             }
         }

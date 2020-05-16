@@ -21,6 +21,7 @@ export default class RegressionHandler extends AbstractDayHandler {
     }
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
+        // Guaranteed to exist because you can't use the bot without first setting day
         const lastSetDay = await getLastSetDay(user)
         const lastDay = lastSetDay.day
 
