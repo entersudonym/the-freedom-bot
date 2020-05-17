@@ -20,6 +20,8 @@ init().then(async () => {
     console.log('Discord and database initialization complete')
 
     client.on('message', async msg => {
+        if (msg.author.bot) return
+
         if (msg.channel.id === config.channels.progressReporting && shouldRespondToDiscord(msg)) {
             try {
                 msg.channel.startTyping()
