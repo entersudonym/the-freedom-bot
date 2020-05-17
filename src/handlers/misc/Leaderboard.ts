@@ -9,8 +9,6 @@ export default class LeaderboardHandler extends AbstractHandler {
     }
 
     protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {
-        msg.channel.startTyping()
-
         const users = await User.find({ order: { points: 'DESC' } })
 
         let result = ''
@@ -26,7 +24,6 @@ export default class LeaderboardHandler extends AbstractHandler {
             result += `${toPush}\n`
         }
 
-        msg.channel.stopTyping()
         return msg.channel.send(result)
     }
 }

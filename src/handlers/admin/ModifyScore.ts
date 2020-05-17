@@ -3,18 +3,21 @@ import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
 import { Report } from '../../entity/Report'
-import { parseNonZeroTrailingFloatFromString } from '../../util/parser'
+import { parseNonZeroNumberFromString } from '../../util/parser'
 import { tagU } from '../../util/tagger'
 import pluralize from '../../util/pluralize'
 
 export default class AdminModifyScore extends AbstractAdminHandler {
     public constructor() {
-        // Reranking handled inside here because the reranking happens on the tagged member, not the
-        // person invoking the command.
+        // Like modify streak, we explicitly call rerank here (instead of in the parent) because this
+        // operates over the tagged member, not the admin issuing the command.
         super(true, false, false, true)
     }
 
+    // Heads up! The `cmd` here is actually a SetDay. This adjustment happens in the ingress, since
+    // AdminModifyScore is, at its core, a set day with no restriction on what day can be set.
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
+        // TODO: Maybe figure out a way to make this mentionedUser part of the class declaration?
         // TODO: Figure out why ts-node doesn't like using the `first()` method on the collection
         //@ts-ignore
         const mentionedUser = msg.mentions.members.first()
@@ -25,7 +28,7 @@ export default class AdminModifyScore extends AbstractAdminHandler {
         }
 
         const prevPoints = taggedUser.points
-        const maybeNewPoints = parseNonZeroTrailingFloatFromString(msg.content)
+        const maybeNewPoints = parseNonZeroNumberFromString(msg.content, parseFloat)
         if (maybeNewPoints.error) {
             return msg.reply(maybeNewPoints.error)
         }

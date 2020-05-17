@@ -7,6 +7,7 @@ import { getExitMessage, getWelcomeMessage } from './data/messages'
 import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
+import { performance } from 'perf_hooks'
 const client = new Client()
 
 // Initializes the connection to Discord and the database
@@ -21,7 +22,9 @@ init().then(async () => {
     client.on('message', async msg => {
         if (msg.channel.id === config.channels.progressReporting) {
             try {
+                msg.channel.startTyping()
                 await handleMessage(msg)
+                msg.channel.stopTyping()
             } catch (e) {
                 msg.channel.send(
                     `There was an error with the bot. The ${tagR(

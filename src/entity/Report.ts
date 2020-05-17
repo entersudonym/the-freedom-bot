@@ -41,6 +41,10 @@ export class Report extends BaseEntity {
 
     @BeforeInsert()
     ensureInvariants() {
+        if (this.day < 0) {
+            throw new Error(`Cannot set day less than 0. Given: ${this.day}`)
+        }
+
         if (this.isRegression) {
             const leqZeroPoints = this.points <= 0
             const zeroDay = this.day === 0

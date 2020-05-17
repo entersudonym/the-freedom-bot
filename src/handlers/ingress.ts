@@ -56,7 +56,9 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // A relapse is really just a SetDay back to 0 with additional consequences. Its implemented
     // like a SetDay at the database level, but sets the user's rank/points back some more. That's
     // why the associated command is a SetDay but its Handler is a RegressionHandler.
-    if (invocation === InfoInvocations.Relapse) invocation = Invocations.SetDay
+    if (invocation.includes[(InfoInvocations.Relapse, InfoInvocations.AdminModifyScore)]) {
+        invocation = Invocations.SetDay
+    }
 
     if ((Object.values(Invocations) as string[]).includes(invocation)) {
         return await Command.findOne({ invocation })

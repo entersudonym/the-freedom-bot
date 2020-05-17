@@ -26,4 +26,4 @@ export default function pluralize(count: number, word: Words, prefix: string = '
     }
 }
 
-type Words = 'point' | 'hour'
+type Words = 'point' | 'hour' | 'day'

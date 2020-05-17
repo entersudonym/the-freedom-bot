@@ -150,8 +150,16 @@ const commands: ICommand[] = [
     },
     {
         name: 'Admin Modify Score',
-        description: 'Modify the streak of any member by running the command and tagging them.',
+        description: 'Modify the score of any member by running the command and tagging them.',
         invocation: InfoInvocations.AdminModifyScore,
+        points: null,
+        isDaily: false,
+        isAdmin: true
+    },
+    {
+        name: 'Admin Modify Streak',
+        description: 'Modify the streak of any member by running the command and tagging them.',
+        invocation: InfoInvocations.AdminModifyStreak,
         points: null,
         isDaily: false,
         isAdmin: true
