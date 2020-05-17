@@ -10,7 +10,7 @@ import RegressionHandler from './misc/Regression'
 import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
 import ListHandler from './misc/List'
-import AdminModifyScore from './admin/ModifyStreak'
+import AdminModifyScore from './admin/ModifyScore'
 import TimeZoneHandler from './misc/TimeZone'
 import AdminModifyStreak from './admin/ModifyStreak'
 
