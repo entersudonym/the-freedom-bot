@@ -9,8 +9,6 @@ import { MiscServerRoles } from '../data/roles'
 import { hasRole } from '../util/discord'
 
 export async function handleMessage(msg: Message) {
-    if (!shouldRespond(msg)) return
-
     // Get user or create one if it doesn't exist
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
@@ -41,10 +39,6 @@ export async function handleMessage(msg: Message) {
 
     const cmd = await getCommandFromInvocation(invocation)
     await handler.evaluate(user, cmd, msg)
-}
-
-function shouldRespond(msg: Message) {
-    return msg.content.startsWith('!')
 }
 
 function getInvocationFromMessage(input: string): string {

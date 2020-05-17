@@ -20,7 +20,7 @@ init().then(async () => {
     console.log('Discord and database initialization complete')
 
     client.on('message', async msg => {
-        if (msg.channel.id === config.channels.progressReporting) {
+        if (msg.channel.id === config.channels.progressReporting && shouldRespondToDiscord(msg)) {
             try {
                 msg.channel.startTyping()
                 await handleMessage(msg)
@@ -51,3 +51,7 @@ init().then(async () => {
         ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).id))
     })
 })
+
+function shouldRespondToDiscord(msg: Message) {
+    return msg.content.startsWith('!')
+}

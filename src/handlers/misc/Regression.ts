@@ -31,7 +31,7 @@ export default class RegressionHandler extends AbstractDayHandler {
 
         const currRank = findRangeEntity(user.points, ranks) as IRank
         let nextRankValue: number
-        if (moment(lastDay).diff(moment(), 'days') >= 7) {
+        if (moment(lastSetDay.date).diff(moment(), 'days') >= 7) {
             // Not a binge.
             nextRankValue = Math.max(currRank.value - 1, 0)
         } else {
