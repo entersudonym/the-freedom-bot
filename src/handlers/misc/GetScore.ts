@@ -2,6 +2,7 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
+import pluralize from '../../util/pluralize'
 
 export default class GetScoreHandler extends AbstractHandler {
     public constructor() {
@@ -10,6 +11,6 @@ export default class GetScoreHandler extends AbstractHandler {
 
     protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {
         const points = user.points
-        return msg.reply(`you have ${points} point(s).`)
+        return msg.reply(`you have ${pluralize(points, 'point')}.`)
     }
 }

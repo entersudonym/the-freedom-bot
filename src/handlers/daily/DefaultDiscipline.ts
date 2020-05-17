@@ -3,6 +3,7 @@ import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
 import { Report } from '../../entity/Report'
+import pluralize from '../../util/pluralize'
 
 export default class DefaultDiscipline extends AbstractHandler {
     public constructor() {
@@ -24,7 +25,10 @@ export default class DefaultDiscipline extends AbstractHandler {
         await user.save()
 
         msg.reply(
-            `successfully added ${pointsToAward} point(s) to your account. You now have ${user.points} point(s).`
+            `successfully added ${pluralize(
+                pointsToAward,
+                'point'
+            )} to your account. You now have ${pluralize(user.points, 'point')}.`
         )
     }
 }

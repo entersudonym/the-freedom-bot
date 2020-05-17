@@ -11,6 +11,7 @@ import { Report } from '../../entity/Report'
 import { getLastReport } from '../../util/db'
 import moment = require('moment-timezone')
 import { InfoInvocations } from '../../data/invocations'
+import pluralize from '../../util/pluralize'
 
 export default abstract class AbstractHandler {
     /**
@@ -95,13 +96,17 @@ export default abstract class AbstractHandler {
                         `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`
                     )
                 } else {
+                    // They have a timezone
                     const timeToWait = moment()
                         .tz(user.timeZone)
                         .endOf('day')
                         .diff(moment.tz(user.timeZone), 'hours')
-                    // TODO: Pluralize correctly!
+
                     return msg.reply(
-                        `you already ran that command today. Wait for the end of the day (in about ${timeToWait} hours).`
+                        `you already ran that command today. Wait for the end of the day (in about ${pluralize(
+                            timeToWait,
+                            'hour'
+                        )}).`
                     )
                 }
             }

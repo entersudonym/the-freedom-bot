@@ -17,9 +17,9 @@ export default class TimeZoneHandler extends AbstractHandler {
         const lastSpaceIndex = content.lastIndexOf(' ')
         const timeZone = content.substr(lastSpaceIndex + 1)
 
-        if (lastSpaceIndex === -1 && timeZone.length === 0) {
+        if (lastSpaceIndex === -1 || timeZone.length === 0) {
             return msg.reply(
-                `type **!${InfoInvocations.Timezone} <time_zone>**, using the country code from ${this.ZoneChart}.`
+                `to set your timezone, type **!${InfoInvocations.Timezone} <time_zone>**, using the "TZ database name" from ${this.ZoneChart}.`
             )
         }
 

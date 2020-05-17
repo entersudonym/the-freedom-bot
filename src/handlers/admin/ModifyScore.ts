@@ -5,6 +5,7 @@ import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
 import { Report } from '../../entity/Report'
 import { parseNonZeroTrailingFloatFromString } from '../../util/parser'
 import { tagU } from '../../util/tagger'
+import pluralize from '../../util/pluralize'
 
 export default class AdminModifyScore extends AbstractAdminHandler {
     public constructor() {
@@ -54,9 +55,9 @@ export default class AdminModifyScore extends AbstractAdminHandler {
 
         await this.rerank(mentionedUser, prevPoints, taggedUser.points)
         return msg.reply(
-            `successfully ${verb} ${newPoints} point(s) ${proposition} ${tagU(
+            `successfully ${verb} ${pluralize(newPoints, 'point')} ${proposition} ${tagU(
                 taggedUser.discordId
-            )}'s account. They now have ${taggedUser.points} point(s).`
+            )}'s account. They now have ${pluralize(taggedUser.points, 'point')}.`
         )
     }
 }

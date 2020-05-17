@@ -8,6 +8,7 @@ import { getLastSetDay } from '../../util/db'
 import moment = require('moment')
 import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
+import pluralize from '../../util/pluralize'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -59,9 +60,10 @@ export default class RegressionHandler extends AbstractDayHandler {
         // at Emergency.ts to see how we do it.
         // TODO: Write a message formatter that deals with formatting floating points/embeds.
         return msg.reply(
-            `your relapse has been recorded. You lost ${pointsToRemove} points and now have ${user.points.toFixed(
-                2
-            )}.`
+            `your relapse has been recorded. You lost ${pluralize(
+                pointsToRemove,
+                'point'
+            )} and now have ${pluralize(user.points, 'point')}.`
         )
     }
 }

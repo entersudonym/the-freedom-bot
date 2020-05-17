@@ -7,6 +7,7 @@ import { getLastSetDay } from '../../util/db'
 import moment = require('moment')
 import { tagR } from '../../util/tagger'
 import { MiscServerRoles } from '../../data/roles'
+import pluralize from '../../util/pluralize'
 
 export default class SetDayHandler extends AbstractDayHandler {
     public constructor() {
@@ -88,8 +89,13 @@ export default class SetDayHandler extends AbstractDayHandler {
         const newPoints = day - lastDay // guaranteed to be positive
         const totalPoints = await this.addReportAndUpdateUser(user, cmd, day, newPoints)
         await this.rerankStreaks(msg.member, lastDay, day)
+
         return msg.reply(
-            `congrats on reaching day ${day}. You earned ${newPoints} new point(s) and now have ${totalPoints} points total.`
+            `congrats on reaching day ${day}. You earned ${pluralize(
+                newPoints,
+                'point',
+                'new'
+            )} and now have ${pluralize(totalPoints, 'point')} total.`
         )
     }
 }

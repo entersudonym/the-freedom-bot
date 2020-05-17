@@ -2,6 +2,7 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
+import pluralize from '../../util/pluralize'
 
 export default class AdminViewScoreHandler extends AbstractHandler {
     public constructor() {
@@ -18,6 +19,6 @@ export default class AdminViewScoreHandler extends AbstractHandler {
             return msg.reply("couldn't find that user in the Freedom Bot database.")
         }
 
-        return msg.reply(`${mentionedUser.username} has ${user.points} point(s).`)
+        return msg.reply(`${mentionedUser.username} has ${pluralize(user.points, 'point')}.`)
     }
 }
