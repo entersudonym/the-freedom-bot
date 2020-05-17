@@ -10,8 +10,6 @@ export default class ListHandler extends AbstractHandler {
         super(false, false, false, false)
     }
 
-    // TODO: This really should be using `handlers`, as that's the canonical source of what we
-    // support / don't support.
     protected async handler(user: User, _cmd: Command, msg: Message): Promise<any> {
         const supportedInvocations = Array.from(handlers.keys())
         const adminQuery = user.isAdmin ? {} : { isAdmin: false }
