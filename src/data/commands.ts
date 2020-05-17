@@ -124,6 +124,15 @@ const commands: ICommand[] = [
         isAdmin: false
     },
     {
+        name: 'Timezone Setting',
+        description:
+            'Optionally sync your timezone with the bot to enrich your Freedom Bot experience.',
+        invocation: InfoInvocations.Timezone,
+        points: null,
+        isDaily: false,
+        isAdmin: false
+    },
+    {
         name: 'Admin View Score',
         description: 'View the score of any member by running the command and tagging them.',
         invocation: InfoInvocations.AdminViewScore,

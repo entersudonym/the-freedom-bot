@@ -1,4 +1,6 @@
 import IRange from '../data/IRange'
+import { IRank } from '../data/ranks'
+import ranks from '../data/ranks'
 
 /**
  * Returns the entity from `entities` whose encompassing range (denoted by `lowerBound` and
@@ -16,4 +18,14 @@ export function findRangeEntity(val: number, entities: IRange[]): IRange {
     }
 
     throw new Error(`Couldn't find corresponding entity with range encompassing value ${val}`)
+}
+
+export function findRankFromValue(value: number): IRank {
+    if (value < 0 || value > ranks.length) {
+        throw new Error(`Cannot get rank of value ${value} from list of ${ranks.length} ranks`)
+    }
+
+    for (let rank of ranks) {
+        if (rank.value === value) return rank
+    }
 }

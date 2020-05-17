@@ -40,7 +40,7 @@ export async function handleMessage(msg: Message) {
     }
 
     const cmd = await getCommandFromInvocation(invocation)
-    handler.evaluate(user, cmd, msg)
+    await handler.evaluate(user, cmd, msg)
 }
 
 function shouldRespond(msg: Message) {

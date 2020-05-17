@@ -11,6 +11,7 @@ import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
 import ListHandler from './misc/List'
 import AdminModifyScore from './admin/ModifyScore'
+import TimeZoneHandler from './misc/TimeZone'
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -35,5 +36,6 @@ handlers.set(InfoInvocations.AdminViewScore, new AdminViewScoreHandler())
 handlers.set(InfoInvocations.AdminViewStreak, new AdminViewStreakHandler())
 handlers.set(InfoInvocations.AdminModifyScore, new AdminModifyScore())
 handlers.set(InfoInvocations.Emergency, new EmergencyHandler())
+handlers.set(InfoInvocations.Timezone, new TimeZoneHandler())
 
 export default handlers

@@ -17,6 +17,7 @@ export enum InfoInvocations {
     Ranks = 'ranks',
     GetDay = 'getday',
     GetScore = 'getscore',
+    Timezone = 'timezone',
     AdminViewScore = 'viewscore',
     AdminViewStreak = 'viewstreak',
     AdminModifyScore = 'modifyscore'

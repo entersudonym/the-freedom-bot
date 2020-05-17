@@ -10,6 +10,7 @@ import { tagU } from '../../util/tagger'
 import { Report } from '../../entity/Report'
 import { getLastReport } from '../../util/db'
 import moment = require('moment-timezone')
+import { InfoInvocations } from '../../data/invocations'
 
 export default abstract class AbstractHandler {
     /**
@@ -47,9 +48,9 @@ export default abstract class AbstractHandler {
             await discordUser.roles.remove(roleToRemove)
             await discordUser.roles.add(roleToAdd)
 
-            const mainChat = getChannelFromClient(discordUser.client, config.channels.mainChat)
             if (newRank.value > prevRank.value) {
                 // They've leveled up
+                const mainChat = getChannelFromClient(discordUser.client, config.channels.mainChat)
                 ;(mainChat as TextChannel).send(
                     `Good news! ${tagU(discordUser.user.id)} leveled up from ${prevRank.name} to ${
                         newRank.name
@@ -58,7 +59,8 @@ export default abstract class AbstractHandler {
             } else {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
-                ;(mainChat as TextChannel).send(
+                const nfChat = getChannelFromClient(discordUser.client, config.channels.nf)
+                ;(nfChat as TextChannel).send(
                     `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
                         newRank.name
                     } due to a relapse.`
@@ -87,8 +89,21 @@ export default abstract class AbstractHandler {
             const lastReport = await getLastReport(user, cmd)
 
             if (!this.hasDayElapsed(user, lastReport)) {
-                // TODO: Show timezone command and/or say how much time to wait.
-                return msg.reply("you've already run that command for today.")
+                if (!user.timeZone) {
+                    // Has not set their timezone
+                    return msg.reply(
+                        `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`
+                    )
+                } else {
+                    const timeToWait = moment()
+                        .tz(user.timeZone)
+                        .endOf('day')
+                        .diff(moment.tz(user.timeZone), 'hours')
+                    // TODO: Pluralize correctly!
+                    return msg.reply(
+                        `you already ran that command today. Wait for the end of the day (in about ${timeToWait} hours).`
+                    )
+                }
             }
         }
 
@@ -108,7 +123,7 @@ export default abstract class AbstractHandler {
         await this.handler(user, cmd, msg)
 
         if (this.shouldRerank) {
-            this.rerank(msg.member, prevPoints, user.points)
+            await this.rerank(msg.member, prevPoints, user.points)
         }
     }
 }

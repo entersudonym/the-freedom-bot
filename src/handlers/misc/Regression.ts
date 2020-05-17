@@ -5,6 +5,9 @@ import { GuildMember } from 'discord.js'
 import AbstractDayHandler from '../abstract/AbstractDayHandler'
 import { Report } from '../../entity/Report'
 import { getLastSetDay } from '../../util/db'
+import moment = require('moment')
+import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
+import ranks, { IRank } from '../../data/ranks'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -17,7 +20,7 @@ export default class RegressionHandler extends AbstractDayHandler {
         newPoints: number
     ): Promise<void> {
         // TODO: Write a custom handler for this!
-        super.rerank(discordUser, prevPoints, newPoints)
+        await super.rerank(discordUser, prevPoints, newPoints)
     }
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
@@ -25,8 +28,19 @@ export default class RegressionHandler extends AbstractDayHandler {
         const lastSetDay = await getLastSetDay(user)
         const lastDay = lastSetDay.day
 
+        const currRank = findRangeEntity(user.points, ranks) as IRank
+        let nextRankValue: number
+        if (moment(lastDay).diff(moment(), 'days') >= 7) {
+            // Not a binge.
+            nextRankValue = Math.max(currRank.value - 1, 0)
+        } else {
+            // Binge
+            nextRankValue = Math.max(currRank.value - 3, 0)
+        }
+        const nextRank = findRankFromValue(nextRankValue)
+
         const existingPoints = user.points
-        const pointsToRemove = Math.floor(existingPoints / 2)
+        const pointsToRemove = existingPoints - nextRank.lowerBound
 
         await Report.create({
             user,
