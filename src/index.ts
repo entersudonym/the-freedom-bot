@@ -38,7 +38,6 @@ init().then(async () => {
                 ;(botChannel as TextChannel).send(context + e)
             }
         }
-        // TODO(2): Record messages from gratitude/affirmations/journal channels
     })
 
     client.on('guildMemberAdd', member => {

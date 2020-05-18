@@ -13,7 +13,7 @@ import moment = require('moment-timezone')
 import { InfoInvocations } from '../../data/invocations'
 import pluralize from '../../util/pluralize'
 import { errorReply } from '../../util/embeds'
-import ErrorTitle from '../../util/Errors'
+import ErrorTitles from '../../util/ErrorTitles'
 
 export default abstract class AbstractHandler {
     /**
@@ -100,7 +100,7 @@ export default abstract class AbstractHandler {
                     // Has not set their timezone
                     return errorReply(
                         msg,
-                        ErrorTitle.TimeElapsed,
+                        ErrorTitles.TimeElapsed,
                         `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`
                     )
                 } else {
@@ -112,7 +112,7 @@ export default abstract class AbstractHandler {
 
                     return errorReply(
                         msg,
-                        ErrorTitle.TimeElapsed,
+                        ErrorTitles.TimeElapsed,
                         `you already ran that command today. Wait for the end of the day (in about ${pluralize(
                             timeToWait,
                             'hour'
@@ -128,7 +128,7 @@ export default abstract class AbstractHandler {
             if (mentionedUsers.size === 0) {
                 return errorReply(
                     msg,
-                    ErrorTitle.NeedsToMention,
+                    ErrorTitles.NeedsToMention,
                     'you must mention the user on whom to run this command.'
                 )
             }
@@ -136,7 +136,7 @@ export default abstract class AbstractHandler {
             if (mentionedUsers.size > 1) {
                 return errorReply(
                     msg,
-                    ErrorTitle.TooManyMentioned,
+                    ErrorTitles.TooManyMentioned,
                     'you can only mention one user at a time.'
                 )
             }

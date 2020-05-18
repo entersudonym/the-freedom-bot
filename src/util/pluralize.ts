@@ -5,13 +5,13 @@
  * prefix. Examples follow.
  *
  * ```ts
- * pluralize('point', 4, 'new') // returns '4 new points'
- * pluralize('point', 1) // returns '1 point'
+ * pluralize(4, 'point', 'new') // returns '4 new points'
+ * pluralize(1, 'point') // returns '1 point'
  * ```
  *
  * Pluralization irregularities are not yet handled: this function should be used mainly for
  * pluralizing words in replies. To ensure that callers of this function are aware of this
- * limitation, we make `word` limited to only those specified by `Words`.
+ * limitation, we make `word` limited to only those specified by the enum `Words`.
  *
  * @param word the word to pluralize. Should be in its singular form
  * @param count the number of times this `word` exists

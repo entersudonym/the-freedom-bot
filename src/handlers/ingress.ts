@@ -28,7 +28,6 @@ export async function handleMessage(msg: Message) {
 
     const handler = handlers.get(invocation)
     if (!handler) {
-        // TODO: Smart suggest some things that they might have intended to write.
         const similarCommands = await findSimilarCommands(invocation, 3, user.isAdmin)
         return msg.channel.send(sendSuggestions(similarCommands))
     }
@@ -52,12 +51,13 @@ function getInvocationFromMessage(input: string): string {
 async function getCommandFromInvocation(invocation: string): Promise<Command | null> {
     // A relapse is really just a SetDay back to 0 with additional consequences. Its implemented
     // like a SetDay at the database level, but sets the user's rank/points back some more. That's
-    // why the associated command is a SetDay but its Handler is a RegressionHandler.
+    // why the associated command is a SetDay but its Handler is a RegressionHandler. ModifyStreak
+    // is also just a SetDay command at its core.
     const setDayAliases: string[] = [InfoInvocations.Relapse, InfoInvocations.AdminModifyStreak]
     if (setDayAliases.includes(invocation)) {
         invocation = Invocations.SetDay
     }
 
-    // This will throw if the command isn't found. Should be caught in index.
+    // Throws if the command isn't found. Should be caught in index.
     return await Command.findOneOrFail({ invocation })
 }

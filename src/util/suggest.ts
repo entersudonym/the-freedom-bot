@@ -1,23 +1,22 @@
-import { Invocations, InfoInvocations } from '../data/invocations'
 import { Command } from '../entity/Command'
-import { In } from 'typeorm'
+import { getCommands } from './db'
 import { unaliasInvocation } from './unalias'
 
 /**
- * Return all the commands in the database similar to `query`, using the Levenshtein threshold
- * `threshold`. `includeAdmin`, if true, will include admin-only commands. This function is used
- * by the ingress, which will suggest commands if no matching one is found.
+ * For an issued invocation (`query`), finds similar commands. An invocation is "similar" to another
+ * command if the invocation's alias is equal to the command, or the Levenshtein distance between
+ * the invocation and the command's invocation is less than `threshold`.
  */
 export async function findSimilarCommands(query: string, threshold: number, includeAdmin: boolean) {
-    const adminQuery = includeAdmin ? {} : { isAdmin: false }
-    const availableCommands = await Command.find({
-        ...adminQuery
-    })
+    const commandBank = await getCommands(includeAdmin)
     let hits: Command[] = []
 
-    availableCommands.forEach(cmd => {
-        if (levenshtein(query, cmd.invocation) <= threshold) hits.push(cmd)
-        else if (levenshtein(unaliasInvocation(query), cmd.invocation) <= threshold) hits.push(cmd)
+    commandBank.forEach(cmd => {
+        if (unaliasInvocation(query) === cmd.invocation) {
+            hits.push(cmd)
+        } else if (levenshtein(query, cmd.invocation) <= threshold) {
+            hits.push(cmd)
+        }
     })
 
     return hits

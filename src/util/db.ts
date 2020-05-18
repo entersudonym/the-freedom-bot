@@ -12,3 +12,10 @@ export async function getLastSetDay(user: User): Promise<Report> {
 export async function getLastReport(user: User, command: Command) {
     return (await Report.findOne({ user, command }, { order: { date: 'DESC' } })) || null
 }
+
+export async function getCommands(includeAdmin: boolean): Promise<Command[]> {
+    const adminQuery = includeAdmin ? {} : { isAdmin: false }
+    return await Command.find({
+        ...adminQuery
+    })
+}

@@ -4,6 +4,7 @@ import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import { getLastSetDay } from '../../util/db'
 import AbstractHandler from '../abstract/AbstractHandler'
+import moment = require('moment')
 
 export default class GetDayHandler extends AbstractHandler {
     public constructor() {
@@ -19,7 +20,7 @@ export default class GetDayHandler extends AbstractHandler {
             )
         }
 
-        // TODO: Include the date on which the last set-day was.
-        return msg.reply(`your last recorded day was day ${lastSetDay.day}.`)
+        const dateString = moment(lastSetDay.date).fromNow()
+        return msg.reply(`your last recorded day was day ${lastSetDay.day} (set ${dateString}).`)
     }
 }
