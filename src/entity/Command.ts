@@ -9,6 +9,9 @@ export class Command extends BaseEntity {
     @Column()
     name: string
 
+    @Column({ nullable: true })
+    altName: string
+
     @Column()
     description: string
 

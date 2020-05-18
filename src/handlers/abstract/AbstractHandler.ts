@@ -12,6 +12,8 @@ import { getLastReport } from '../../util/db'
 import moment = require('moment-timezone')
 import { InfoInvocations } from '../../data/invocations'
 import pluralize from '../../util/pluralize'
+import { errorReply } from '../../util/embeds'
+import ErrorTitle from '../../util/Errors'
 
 export default abstract class AbstractHandler {
     /**
@@ -30,7 +32,7 @@ export default abstract class AbstractHandler {
         protected verifyMention: boolean
     ) {}
 
-    protected abstract async handler(user: User, cmd: Command, msg: Message): Promise<void>
+    protected abstract async handler(user: User, cmd: Command, msg: Message): Promise<any>
 
     protected async rerank(
         discordUser: GuildMember,
@@ -83,7 +85,11 @@ export default abstract class AbstractHandler {
     public async evaluate(user: User, cmd: Command, msg: Message): Promise<any> {
         if (this.adminOnly) {
             if (!user.isAdmin) {
-                return msg.reply('that command is reserved solely for admins.')
+                return errorReply(
+                    msg,
+                    'Authentication Error',
+                    'that command is reserved solely for admins.'
+                )
             }
         }
         if (this.ensureDayElapsed) {
@@ -92,7 +98,9 @@ export default abstract class AbstractHandler {
             if (!this.hasDayElapsed(user, lastReport)) {
                 if (!user.timeZone) {
                     // Has not set their timezone
-                    return msg.reply(
+                    return errorReply(
+                        msg,
+                        ErrorTitle.TimeElapsed,
                         `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`
                     )
                 } else {
@@ -102,7 +110,9 @@ export default abstract class AbstractHandler {
                         .endOf('day')
                         .diff(moment.tz(user.timeZone), 'hours')
 
-                    return msg.reply(
+                    return errorReply(
+                        msg,
+                        ErrorTitle.TimeElapsed,
                         `you already ran that command today. Wait for the end of the day (in about ${pluralize(
                             timeToWait,
                             'hour'
@@ -116,11 +126,19 @@ export default abstract class AbstractHandler {
             const mentionedUsers = msg.mentions.users
 
             if (mentionedUsers.size === 0) {
-                return msg.reply('you must mention the user on whom to run this command.')
+                return errorReply(
+                    msg,
+                    ErrorTitle.NeedsToMention,
+                    'you must mention the user on whom to run this command.'
+                )
             }
 
             if (mentionedUsers.size > 1) {
-                return msg.reply('you can only mention one user at a time.')
+                return errorReply(
+                    msg,
+                    ErrorTitle.TooManyMentioned,
+                    'you can only mention one user at a time.'
+                )
             }
         }
 

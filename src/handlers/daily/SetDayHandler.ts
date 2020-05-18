@@ -74,8 +74,7 @@ export default class SetDayHandler extends AbstractDayHandler {
 
         // Verify that the date isn't wildly more than it's supposed to be.
         const desiredNewDays = day - lastDay
-        // TODO: This sometimes goes negative. Fix?
-        const actualElapsedDays = moment(lastSetDay.date).diff(moment(), 'days')
+        const actualElapsedDays = moment().diff(moment(lastSetDay.date), 'days')
         if (desiredNewDays > actualElapsedDays + 2) {
             const mod = MiscServerRoles.Moderator
             return msg.reply(

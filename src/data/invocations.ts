@@ -23,3 +23,13 @@ export enum InfoInvocations {
     AdminViewStreak = 'viewstreak',
     AdminModifyStreak = 'modifystreak'
 }
+
+export enum AliasInvocations {
+    Fitness = 'fitness', // Invocations.Workout
+    Mindfulness = 'mindfulness' // Invocations.Meditation
+}
+
+export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map([
+    [AliasInvocations.Fitness, Invocations.Workout],
+    [AliasInvocations.Mindfulness, Invocations.Meditation]
+])

@@ -1,14 +1,14 @@
 import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
-import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
 import { Report } from '../../entity/Report'
 import { parseNonZeroNumberFromString } from '../../util/parser'
 import { tagU } from '../../util/tagger'
 import pluralize from '../../util/pluralize'
 import { getLastSetDay } from '../../util/db'
+import AbstractDayHandler from '../abstract/AbstractDayHandler'
 
-export default class AdminModifyStreak extends AbstractAdminHandler {
+export default class AdminModifyStreak extends AbstractDayHandler {
     public constructor() {
         // Reranking handled inside here because the reranking happens on the tagged member, not the
         // person invoking the command.
@@ -30,8 +30,9 @@ export default class AdminModifyStreak extends AbstractAdminHandler {
         if (maybeNewDay.error) {
             return msg.reply(maybeNewDay.error)
         }
+        const prevDay = (await getLastSetDay(taggedUser)).day
         const newDay = maybeNewDay.number
-        const pointValue = newDay - (await getLastSetDay(taggedUser)).day
+        const pointValue = newDay - prevDay
 
         await Report.create({
             user: taggedUser,
@@ -44,6 +45,9 @@ export default class AdminModifyStreak extends AbstractAdminHandler {
         taggedUser.points += pointValue
         await taggedUser.save()
 
+        await this.rerankStreaks(msg.member, prevDay, newDay)
+        await this.rerank(mentionedUser, prevPoints, taggedUser.points)
+
         let verb = ''
         if (pointValue >= 0) {
             verb = 'gained'
@@ -51,7 +55,6 @@ export default class AdminModifyStreak extends AbstractAdminHandler {
             verb = 'lost'
         }
 
-        await this.rerank(mentionedUser, prevPoints, taggedUser.points)
         return msg.reply(
             `successfully set ${tagU(taggedUser.discordId)}'s streak to ${pluralize(
                 newDay,

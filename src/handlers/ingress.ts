@@ -1,12 +1,14 @@
 import { Message } from 'discord.js'
+import { InfoInvocations, Invocations, AliasMapping } from '../data/invocations'
+import { MiscServerRoles } from '../data/roles'
 import { Command } from '../entity/Command'
 import { User } from '../entity/User'
 import { createUser } from '../scripts/users'
-import handlers from './handlers'
-import { Invocations, InfoInvocations } from '../data/invocations'
 import { getLastSetDay } from '../util/db'
-import { MiscServerRoles } from '../data/roles'
 import { hasRole } from '../util/discord'
+import { sendSuggestions } from '../util/embeds'
+import { findSimilarCommands } from '../util/suggest'
+import handlers from './handlers'
 
 export async function handleMessage(msg: Message) {
     // Get user or create one if it doesn't exist
@@ -27,7 +29,8 @@ export async function handleMessage(msg: Message) {
     const handler = handlers.get(invocation)
     if (!handler) {
         // TODO: Smart suggest some things that they might have intended to write.
-        return msg.reply('command not found.')
+        const similarCommands = await findSimilarCommands(invocation, 3, user.isAdmin)
+        return msg.channel.send(sendSuggestions(similarCommands))
     }
 
     const lastSetDay = await getLastSetDay(user)
@@ -50,13 +53,11 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // A relapse is really just a SetDay back to 0 with additional consequences. Its implemented
     // like a SetDay at the database level, but sets the user's rank/points back some more. That's
     // why the associated command is a SetDay but its Handler is a RegressionHandler.
-    if (invocation.includes[(InfoInvocations.Relapse, InfoInvocations.AdminModifyScore)]) {
+    const setDayAliases: string[] = [InfoInvocations.Relapse, InfoInvocations.AdminModifyStreak]
+    if (setDayAliases.includes(invocation)) {
         invocation = Invocations.SetDay
     }
 
-    if ((Object.values(Invocations) as string[]).includes(invocation)) {
-        return await Command.findOne({ invocation })
-    } else {
-        return null
-    }
+    // This will throw if the command isn't found. Should be caught in index.
+    return await Command.findOneOrFail({ invocation })
 }

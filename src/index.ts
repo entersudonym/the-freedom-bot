@@ -24,9 +24,7 @@ init().then(async () => {
 
         if (msg.channel.id === config.channels.progressReporting && shouldRespondToDiscord(msg)) {
             try {
-                msg.channel.startTyping()
                 await handleMessage(msg)
-                msg.channel.stopTyping(true)
             } catch (e) {
                 msg.channel.send(
                     `There was an error with the bot. The ${tagR(

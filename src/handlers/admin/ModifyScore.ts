@@ -1,13 +1,13 @@
 import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
-import AbstractAdminHandler from '../abstract/AbstractAdminHandler'
 import { Report } from '../../entity/Report'
 import { parseNonZeroNumberFromString } from '../../util/parser'
 import { tagU } from '../../util/tagger'
 import pluralize from '../../util/pluralize'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class AdminModifyScore extends AbstractAdminHandler {
+export default class AdminModifyScore extends AbstractHandler {
     public constructor() {
         // Like modify streak, we explicitly call rerank here (instead of in the parent) because this
         // operates over the tagged member, not the admin issuing the command.
