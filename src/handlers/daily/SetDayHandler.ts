@@ -60,7 +60,10 @@ export default class SetDayHandler extends AbstractDayHandler {
             }
 
             return msg.reply(
-                `good job on setting your day for the first time. You now have ${totalPoints} points.`
+                `good job on setting your day for the first time. You now have ${pluralize(
+                    totalPoints,
+                    'point'
+                )}.`
             )
         }
 
