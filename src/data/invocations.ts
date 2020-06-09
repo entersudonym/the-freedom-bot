@@ -6,7 +6,7 @@ export enum Invocations {
     Workout = 'workout',
     Gratefulness = 'gratefulness',
     Journal = 'journal',
-    SetDay = 'setday'
+    SetDay = 'setday',
 }
 
 export enum InfoInvocations {
@@ -19,17 +19,17 @@ export enum InfoInvocations {
     GetScore = 'getscore',
     Timezone = 'timezone',
     AdminViewScore = 'viewscore',
-    AdminModifyScore = 'modifyscore',
+    AdminAdjustScore = 'adjustscore',
     AdminViewStreak = 'viewstreak',
-    AdminModifyStreak = 'modifystreak'
+    AdminSetStreak = 'setstreak',
 }
 
 export enum AliasInvocations {
     Fitness = 'fitness', // Invocations.Workout
-    Mindfulness = 'mindfulness' // Invocations.Meditation
+    Mindfulness = 'mindfulness', // Invocations.Meditation
 }
 
 export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map([
     [AliasInvocations.Fitness, Invocations.Workout],
-    [AliasInvocations.Mindfulness, Invocations.Meditation]
+    [AliasInvocations.Mindfulness, Invocations.Meditation],
 ])

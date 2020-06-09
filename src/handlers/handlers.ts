@@ -10,9 +10,9 @@ import RegressionHandler from './misc/Regression'
 import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
 import ListHandler from './misc/List'
-import AdminModifyScore from './admin/ModifyScore'
+import AdminAdjustScore from './admin/AdjustScore'
 import TimeZoneHandler from './misc/TimeZone'
-import AdminModifyStreak from './admin/ModifyStreak'
+import AdminModifyStreak from './admin/SetStreak'
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -35,8 +35,8 @@ handlers.set(InfoInvocations.GetDay, new GetDayHandler())
 handlers.set(InfoInvocations.GetScore, new GetScoreHandler())
 handlers.set(InfoInvocations.AdminViewScore, new AdminViewScoreHandler())
 handlers.set(InfoInvocations.AdminViewStreak, new AdminViewStreakHandler())
-handlers.set(InfoInvocations.AdminModifyScore, new AdminModifyScore())
-handlers.set(InfoInvocations.AdminModifyStreak, new AdminModifyStreak())
+handlers.set(InfoInvocations.AdminAdjustScore, new AdminAdjustScore())
+handlers.set(InfoInvocations.AdminSetStreak, new AdminModifyStreak())
 handlers.set(InfoInvocations.Emergency, new EmergencyHandler())
 handlers.set(InfoInvocations.Timezone, new TimeZoneHandler())
 

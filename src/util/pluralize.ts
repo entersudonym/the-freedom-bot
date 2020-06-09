@@ -19,10 +19,13 @@
  */
 export default function pluralize(count: number, word: Words, prefix: string = ''): string {
     const pluralizedWord = count === 1 ? word : `${word}s`
+    // Optionally rounds to two decimal places.
+    // https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary
+    const roundedCount = Math.round((count + Number.EPSILON) * 100) / 100
     if (prefix) {
-        return `${count} ${prefix} ${pluralizedWord}`
+        return `${roundedCount} ${prefix} ${pluralizedWord}`
     } else {
-        return `${count} ${pluralizedWord}`
+        return `${roundedCount} ${pluralizedWord}`
     }
 }
 

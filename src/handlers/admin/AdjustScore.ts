@@ -7,15 +7,13 @@ import { tagU } from '../../util/tagger'
 import pluralize from '../../util/pluralize'
 import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class AdminModifyScore extends AbstractHandler {
+export default class AdminAdjustScore extends AbstractHandler {
     public constructor() {
         // Like modify streak, we explicitly call rerank here (instead of in the parent) because this
         // operates over the tagged member, not the admin issuing the command.
         super(true, false, false, true)
     }
 
-    // Heads up! The `cmd` here is actually a SetDay. This adjustment happens in the ingress, since
-    // AdminModifyScore is, at its core, a set day with no restriction on what day can be set.
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
         // TODO: Maybe figure out a way to make this mentionedUser part of the class declaration?
         // TODO: Figure out why ts-node doesn't like using the `first()` method on the collection
@@ -40,7 +38,7 @@ export default class AdminModifyScore extends AbstractHandler {
             command: cmd,
             points: newPoints,
             isRegression: false,
-            day: null
+            day: null,
         }).save()
         taggedUser.points += newPoints
         await taggedUser.save()
@@ -58,7 +56,7 @@ export default class AdminModifyScore extends AbstractHandler {
 
         await this.rerank(mentionedUser, prevPoints, taggedUser.points)
         return msg.reply(
-            `successfully ${verb} ${pluralize(newPoints, 'point')} ${proposition} ${tagU(
+            `successfully ${verb} ${pluralize(Math.abs(newPoints), 'point')} ${proposition} ${tagU(
                 taggedUser.discordId
             )}'s account. They now have ${pluralize(taggedUser.points, 'point')}.`
         )

@@ -8,7 +8,7 @@ const commands: ICommand[] = [
         invocation: Invocations.Affirmation,
         points: 0.5,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Cold Showers',
@@ -17,7 +17,7 @@ const commands: ICommand[] = [
         invocation: Invocations.ColdShower,
         points: 0.2,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Showing Gratefulness',
@@ -26,7 +26,7 @@ const commands: ICommand[] = [
         invocation: Invocations.Gratefulness,
         points: 0.15,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Daily Journaling',
@@ -35,7 +35,7 @@ const commands: ICommand[] = [
         invocation: Invocations.Journal,
         points: 1,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Making Your Bed',
@@ -44,7 +44,7 @@ const commands: ICommand[] = [
         invocation: Invocations.MakeBed,
         points: 0.15,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Meditation and Mindfulness',
@@ -54,7 +54,7 @@ const commands: ICommand[] = [
         invocation: Invocations.Meditation,
         points: 0.5,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'NoFap',
@@ -63,7 +63,7 @@ const commands: ICommand[] = [
         invocation: Invocations.SetDay,
         points: 1,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Physical Fitness',
@@ -73,7 +73,7 @@ const commands: ICommand[] = [
         invocation: Invocations.Workout,
         points: 0.5,
         isDaily: true,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Emergency',
@@ -81,7 +81,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.Emergency,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Get Day',
@@ -89,7 +89,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.GetDay,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Get Score',
@@ -97,7 +97,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.GetScore,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Leaderboard',
@@ -105,7 +105,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.Leaderboard,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'List',
@@ -113,7 +113,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.List,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Ranks',
@@ -121,7 +121,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.Ranks,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Relapse',
@@ -129,7 +129,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.Relapse,
         points: null, // Dynamically figured out by the handler
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Timezone Setting',
@@ -138,7 +138,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.Timezone,
         points: null,
         isDaily: false,
-        isAdmin: false
+        isAdmin: false,
     },
     {
         name: 'Admin View Score',
@@ -146,7 +146,7 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.AdminViewScore,
         points: null,
         isDaily: false,
-        isAdmin: true
+        isAdmin: true,
     },
     {
         name: 'Admin View Streak',
@@ -154,24 +154,24 @@ const commands: ICommand[] = [
         invocation: InfoInvocations.AdminViewStreak,
         points: null,
         isDaily: false,
-        isAdmin: true
+        isAdmin: true,
     },
     {
         name: 'Admin Modify Score',
         description: 'Modify the score of any member by running the command and tagging them.',
-        invocation: InfoInvocations.AdminModifyScore,
+        invocation: InfoInvocations.AdminAdjustScore,
         points: null,
         isDaily: false,
-        isAdmin: true
+        isAdmin: true,
     },
     {
         name: 'Admin Modify Streak',
         description: 'Modify the streak of any member by running the command and tagging them.',
-        invocation: InfoInvocations.AdminModifyStreak,
+        invocation: InfoInvocations.AdminSetStreak,
         points: null,
         isDaily: false,
-        isAdmin: true
-    }
+        isAdmin: true,
+    },
 ]
 
 interface ICommand {
