@@ -36,7 +36,7 @@ export default class RegressionHandler extends AbstractDayHandler {
             nextRankValue = Math.max(currRank.value - 1, 0)
         } else {
             // Binge
-            nextRankValue = Math.max(currRank.value - 3, 0)
+            nextRankValue = Math.floor(currRank.value / 2)
         }
         const nextRank = findRankFromValue(nextRankValue)
 
@@ -48,7 +48,7 @@ export default class RegressionHandler extends AbstractDayHandler {
             command: cmd,
             isRegression: true,
             day: 0,
-            points: -pointsToRemove
+            points: -pointsToRemove,
         }).save()
 
         user.points = user.points - pointsToRemove
