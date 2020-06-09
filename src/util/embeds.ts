@@ -39,6 +39,14 @@ export function buildEmbed(
         .setDescription(`${tagU(id)}, ${description}`)
 }
 
+export function successReply(msg: Message, title: string, description: string) {
+    return msg.channel.send(buildEmbed('S', title, msg.author.id, description))
+}
+
+export function infoReply(msg: Message, title: string, description: string) {
+    return msg.channel.send(buildEmbed('I', title, msg.author.id, description))
+}
+
 export function errorReply(msg: Message, title: string, description: string) {
     return msg.channel.send(buildEmbed('E', title, msg.author.id, description))
 }

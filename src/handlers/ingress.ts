@@ -18,7 +18,7 @@ export async function handleMessage(msg: Message) {
         const isAdmin = hasRole(msg.member, [
             MiscServerRoles.Moderator,
             MiscServerRoles.Executive,
-            MiscServerRoles.Owner
+            MiscServerRoles.Owner,
         ])
         user = await createUser(authorId, isAdmin)
     }
@@ -53,7 +53,7 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // like a SetDay at the database level, but sets the user's rank/points back some more. That's
     // why the associated command is a SetDay but its Handler is a RegressionHandler. ModifyStreak
     // is also just a SetDay command at its core.
-    const setDayAliases: string[] = [InfoInvocations.Relapse, InfoInvocations.AdminModifyStreak]
+    const setDayAliases: string[] = [InfoInvocations.Relapse, InfoInvocations.AdminSetStreak]
     if (setDayAliases.includes(invocation)) {
         invocation = Invocations.SetDay
     }
