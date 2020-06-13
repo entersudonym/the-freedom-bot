@@ -59,5 +59,6 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     }
 
     // Throws if the command isn't found. Should be caught in index.
+    // @ts-ignore
     return await Command.findOneOrFail({ invocation })
 }

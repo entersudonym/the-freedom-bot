@@ -9,7 +9,7 @@ import Collection from '@discordjs/collection'
  */
 export function getChannelFromClient(client: Client, channelId: string): Channel {
     const channel = client.channels.resolve(channelId)
-    if (!channel) throw new Error(`New comers channel ${channelId} could not be found.`)
+    if (!channel) throw new Error(`Channel with id ${channelId} could not be found.`)
 
     return channel
 }

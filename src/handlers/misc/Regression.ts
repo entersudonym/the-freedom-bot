@@ -25,14 +25,12 @@ export default class RegressionHandler extends AbstractDayHandler {
     }
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
-        // Guaranteed to exist because you can't use the bot without first setting day
-        const lastSetDay = await getLastSetDay(user)
-        const lastDay = lastSetDay.day
-
         const currRank = findRangeEntity(user.points, ranks) as IRank
+        const lastSetDay = await getLastSetDay(user)
+        const lastRelapse = await getLastSetDay(user, true)
+
         let nextRankValue: number
-        if (moment(lastSetDay.date).diff(moment(), 'days') >= 7) {
-            // Not a binge.
+        if (!lastRelapse || moment(lastRelapse.date).diff(moment(), 'days') >= 7) {
             nextRankValue = Math.max(currRank.value - 1, 0)
         } else {
             // Binge
@@ -54,7 +52,7 @@ export default class RegressionHandler extends AbstractDayHandler {
         user.points = user.points - pointsToRemove
         await user.save()
 
-        await this.rerankStreaks(msg.member, lastDay, 0)
+        await this.rerankStreaks(msg.member, lastSetDay.day, 0)
         // TODO(N): Show them something inspirational.
         // Probably want to make a module that will fetch a URL from the NoFap website. Take a peek
         // at Emergency.ts to see how we do it.

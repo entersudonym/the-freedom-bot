@@ -7,12 +7,19 @@ import { getExitMessage, getWelcomeMessage } from './data/messages'
 import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
-import { performance } from 'perf_hooks'
+import { Command } from './entity/Command'
 const client = new Client()
 
 // Initializes the connection to Discord and the database
 async function init() {
     await createConnection()
+    // Ensure that there are commands in the database
+    const numberOfCommands = (await Command.findAndCount())[1]
+    if (!numberOfCommands) {
+        console.error('No commands found! Did you populate yet?')
+        process.exit(1)
+    }
+
     await client.login(config.key)
 }
 
@@ -21,22 +28,21 @@ init().then(async () => {
 
     client.on('message', async msg => {
         if (msg.author.bot) return
+        if (!shouldRespond(msg)) return
 
-        if (msg.channel.id === config.channels.progressReporting && shouldRespondToDiscord(msg)) {
-            try {
-                await handleMessage(msg)
-            } catch (e) {
-                msg.channel.send(
-                    `There was an error with the bot. The ${tagR(
-                        MiscServerRoles.TechGuy
-                    )}s have been notified. Please temporarily refrain from running commands.`
-                )
+        try {
+            await handleMessage(msg)
+        } catch (e) {
+            msg.channel.send(
+                `There was an error with the bot. The ${tagR(
+                    MiscServerRoles.TechGuy
+                )}s have been notified. Please temporarily refrain from running commands.`
+            )
 
-                const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
+            const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
 
-                const botChannel = getChannelFromClient(client, config.channels.botTalk)
-                ;(botChannel as TextChannel).send(context + e)
-            }
+            const botChannel = getChannelFromClient(client, config.channels.botTalk)
+            ;(botChannel as TextChannel).send(context + e)
         }
     })
 
@@ -51,6 +57,6 @@ init().then(async () => {
     })
 })
 
-function shouldRespondToDiscord(msg: Message) {
-    return msg.content.startsWith('!')
+function shouldRespond(msg: Message) {
+    return msg.content.startsWith('!') && msg.channel.id === config.channels.progressReporting
 }

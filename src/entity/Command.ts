@@ -16,12 +16,10 @@ export class Command extends BaseEntity {
     description: string
 
     @Column({
-        type: 'enum',
-        enum: { ...Invocations, ...InfoInvocations },
         nullable: false,
-        unique: true
+        unique: true,
     })
-    invocation: string
+    invocation: Invocations | InfoInvocations
 
     @Column({ type: 'float', nullable: true }) // Allow nullability for info or info commands
     points: number
