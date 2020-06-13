@@ -14,6 +14,7 @@ import { InfoInvocations } from '../../data/invocations'
 import pluralize from '../../util/pluralize'
 import { errorReply } from '../../util/embeds'
 import ErrorTitles from '../../util/ErrorTitles'
+import { isAdmin } from '../../util/permissions'
 
 export default abstract class AbstractHandler {
     /**
@@ -84,7 +85,7 @@ export default abstract class AbstractHandler {
 
     public async evaluate(user: User, cmd: Command, msg: Message): Promise<any> {
         if (this.adminOnly) {
-            if (!user.isAdmin) {
+            if (!isAdmin(msg.member)) {
                 return errorReply(
                     msg,
                     'Authentication Error',

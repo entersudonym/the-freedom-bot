@@ -8,9 +8,6 @@ export class User extends BaseEntity {
     @Column()
     discordId: string
 
-    @Column({ default: false })
-    isAdmin: boolean
-
     @Column({ default: 0, type: 'float' })
     points: number
 

@@ -9,18 +9,14 @@ import { hasRole } from '../util/discord'
 import { sendSuggestions } from '../util/embeds'
 import { findSimilarCommands } from '../util/suggest'
 import handlers from './handlers'
+import { isAdmin } from '../util/permissions'
 
 export async function handleMessage(msg: Message) {
     // Get user or create one if it doesn't exist
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
-        const isAdmin = hasRole(msg.member, [
-            MiscServerRoles.Moderator,
-            MiscServerRoles.Executive,
-            MiscServerRoles.Owner,
-        ])
-        user = await createUser(authorId, isAdmin)
+        user = await createUser(authorId)
     }
 
     // Get the appropriate handler, instantiate it, and run an evaluation
@@ -28,7 +24,7 @@ export async function handleMessage(msg: Message) {
 
     const handler = handlers.get(invocation)
     if (!handler) {
-        const similarCommands = await findSimilarCommands(invocation, 3, user.isAdmin)
+        const similarCommands = await findSimilarCommands(invocation, 3, isAdmin(msg.member))
         return msg.channel.send(sendSuggestions(similarCommands))
     }
 
