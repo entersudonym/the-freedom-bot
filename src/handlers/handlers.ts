@@ -10,6 +10,7 @@ import RegressionHandler from './misc/Regression'
 import EmergencyHandler from './misc/Emergency'
 import LeaderboardHandler from './misc/Leaderboard'
 import ListHandler from './misc/List'
+import RankHandler from './misc/Ranks'
 import AdminAdjustScore from './admin/AdjustScore'
 import TimeZoneHandler from './misc/TimeZone'
 import AdminModifyStreak from './admin/SetStreak'
@@ -31,6 +32,7 @@ handlers.set(Invocations.SetDay, new SetDayHandler())
 handlers.set(InfoInvocations.Relapse, new RegressionHandler())
 handlers.set(InfoInvocations.Leaderboard, new LeaderboardHandler())
 handlers.set(InfoInvocations.List, new ListHandler())
+handlers.set(InfoInvocations.Ranks, new RankHandler())
 handlers.set(InfoInvocations.GetDay, new GetDayHandler())
 handlers.set(InfoInvocations.GetScore, new GetScoreHandler())
 handlers.set(InfoInvocations.AdminViewScore, new AdminViewScoreHandler())
