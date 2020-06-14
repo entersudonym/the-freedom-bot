@@ -13,6 +13,8 @@ export async function findSimilarCommands(query: string, threshold: number, incl
 
     commandBank.forEach(cmd => {
         if (unaliasInvocation(query) === cmd.invocation) {
+            // This should never happen because we unalias in the ingress, so any valid alias
+            // should already be matched to its canonical invocation
             hits.push(cmd)
         } else if (levenshtein(query, cmd.invocation) <= threshold) {
             hits.push(cmd)

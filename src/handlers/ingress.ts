@@ -10,6 +10,7 @@ import { sendSuggestions } from '../util/embeds'
 import { findSimilarCommands } from '../util/suggest'
 import handlers from './handlers'
 import { isAdmin } from '../util/permissions'
+import { unaliasInvocation } from '../util/unalias'
 
 export async function handleMessage(msg: Message) {
     // Get user or create one if it doesn't exist
@@ -20,7 +21,7 @@ export async function handleMessage(msg: Message) {
     }
 
     // Get the appropriate handler, instantiate it, and run an evaluation
-    const invocation = getInvocationFromMessage(msg.content)
+    const invocation = unaliasInvocation(getInvocationFromMessage(msg.content))
 
     const handler = handlers.get(invocation)
     if (!handler) {

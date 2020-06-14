@@ -27,9 +27,15 @@ export enum InfoInvocations {
 export enum AliasInvocations {
     Fitness = 'fitness', // Invocations.Workout
     Mindfulness = 'mindfulness', // Invocations.Meditation
+    Gratitude = 'gratitude', // Invocations.Gratefulness
+    ColdShower = 'coldshower', // Invocations.ColdShower; note the lack of an underscore
+    MakeBed = 'makebed', // Invocations.MakeBed; note the lack of an underscore
 }
 
 export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map([
     [AliasInvocations.Fitness, Invocations.Workout],
     [AliasInvocations.Mindfulness, Invocations.Meditation],
+    [AliasInvocations.Gratitude, Invocations.Gratefulness],
+    [AliasInvocations.ColdShower, Invocations.ColdShower],
+    [AliasInvocations.MakeBed, Invocations.MakeBed],
 ])
