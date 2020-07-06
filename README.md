@@ -2,6 +2,18 @@
 
 Discipline is freedom. Self-mastery is the key to success. Helping others is the secret to happiness. These tenets are those upon which this bot is founded; with our collaborative software engineering skills, we will use this bot to make more accessible the freedom, success, and happiness that we so deeply espouse.
 
+## Deployment
+
+Yeah so everything in this is out of date, but I'll get to it later. To deploy:
+
+1. Make sure there's the right config in `src/config/config.ts`
+2. Get a dump from the existing bot, and put it into `data.json`. Run the appropriate Regex find and replaces to convert the numbers to strings.
+3. Wipe existing databases, and create a fresh one.
+4. Populate commands.
+5. Populate users with old date.
+6. Start the bot.
+7. Pray that it works.
+
 ## Getting Started
 
 Our stack is built with Typescript, NPM, and MySQL. There is no frontend or webserver. You'll need Node and NPM installed on your machine. To run Typescript in development, we use `ts-node`, so make sure to have that. Be sure to also install MySQL.

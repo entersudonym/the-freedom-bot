@@ -5,7 +5,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Command } from './Command'
 import { User } from './User'
@@ -45,15 +45,17 @@ export class Report extends BaseEntity {
             throw new Error(`Cannot set day less than 0. Given: ${this.day}`)
         }
 
-        if (this.isRegression) {
-            const leqZeroPoints = this.points <= 0
-            const zeroDay = this.day === 0
+        // Originally had this invariant, but it doesn't hold true for imports, since we can create a report
+        // at day 0 with a non-zero (or positive) number of points.
+        // if (this.isRegression) {
+        //     const leqZeroPoints = this.points <= 0
+        //     const zeroDay = this.day === 0
 
-            if (!(leqZeroPoints && zeroDay)) {
-                throw new Error(
-                    `Regression reports must have negative points AND zero-day. Given: ${this.points} points and day ${this.day}`
-                )
-            }
-        }
+        //     if (!(leqZeroPoints && zeroDay)) {
+        //         throw new Error(
+        //             `Regression reports must have negative points AND zero-day. Given: ${this.points} points and day ${this.day}`
+        //         )
+        //     }
+        // }
     }
 }
