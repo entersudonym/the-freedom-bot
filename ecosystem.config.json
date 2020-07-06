@@ -4,7 +4,7 @@
             "name": "the-freedom-bot",
             "script": "ts-node",
             "args": "./src/index.ts",
-            "cwd": "/home/noahtheheir/freedom-bot",
+            "cwd": "/home/ubuntu/freedom-bot",
             "log_date_format": "YYYY-MM-DD HH:mm:ss.SSS Z",
             "env": {
                 "NODE_ENV": "production"
