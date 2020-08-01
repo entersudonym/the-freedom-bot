@@ -47,11 +47,7 @@ export default class FirstwatchHandler extends DefaultDiscipline {
                 'E',
                 'Too Early',
                 msg.author.id,
-                `you can only claim points for waking up early after ${this.EARLIEST_TIME_HOURS}:${
-                    this.EARLIST_TIME_MINS
-                }AM, since you might just be up late. Want to change this? DM ${tagU(
-                    config.people.owner
-                )}.`
+                `you can only claim points for waking up early after ${this.EARLIEST_TIME_HOURS}:${this.EARLIST_TIME_MINS}AM, since you might just be up late.`
             )
             return msg.channel.send(embed)
         }

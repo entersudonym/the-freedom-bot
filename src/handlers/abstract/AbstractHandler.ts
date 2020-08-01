@@ -93,7 +93,7 @@ export default abstract class AbstractHandler {
                 )
             }
         }
-        if (false) {
+        if (this.ensureDayElapsed) {
             const lastReport = await getLastReport(user, cmd)
 
             if (!this.hasDayElapsed(user, lastReport)) {
