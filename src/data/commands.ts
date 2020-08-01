@@ -76,6 +76,16 @@ const commands: ICommand[] = [
         isAdmin: false,
     },
     {
+        name: 'Firstwatch',
+        altName: 'Waking Up Early',
+        description:
+            'Be one of the first awake. You must check-in before 5:30 AM in your timezone.',
+        invocation: Invocations.Firstwatch,
+        points: 0.5,
+        isDaily: true,
+        isAdmin: false,
+    },
+    {
         name: 'Emergency',
         description: 'Get emergency motivation.',
         invocation: InfoInvocations.Emergency,

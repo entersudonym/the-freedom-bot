@@ -1,5 +1,6 @@
 import AbstractHandler from './abstract/AbstractHandler'
 import DefaultDiscipline from './daily/DefaultDiscipline'
+import FirstwatchHandler from './daily/FirstwatchHandler'
 import SetDayHandler from './daily/SetDayHandler'
 import AdminViewScoreHandler from './admin/ViewScore'
 import { Invocations, InfoInvocations, AliasInvocations } from '../data/invocations'
@@ -27,6 +28,7 @@ handlers.set(Invocations.Meditation, DailyDisciplineHandler)
 handlers.set(Invocations.Workout, DailyDisciplineHandler)
 // TODO: Verify that people sent a message in journals!
 handlers.set(Invocations.Journal, DailyDisciplineHandler)
+handlers.set(Invocations.Firstwatch, new FirstwatchHandler())
 handlers.set(Invocations.SetDay, new SetDayHandler())
 
 handlers.set(InfoInvocations.Relapse, new RegressionHandler())

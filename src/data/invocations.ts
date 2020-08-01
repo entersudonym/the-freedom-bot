@@ -6,6 +6,7 @@ export enum Invocations {
     Workout = 'workout',
     Gratefulness = 'gratefulness',
     Journal = 'journal',
+    Firstwatch = 'firstwatch',
     SetDay = 'setday',
 }
 
@@ -30,6 +31,7 @@ export enum AliasInvocations {
     Gratitude = 'gratitude', // Invocations.Gratefulness
     ColdShower = 'coldshower', // Invocations.ColdShower; note the lack of an underscore
     MakeBed = 'makebed', // Invocations.MakeBed; note the lack of an underscore
+    Wormcatcher = 'wormcatcher', // Invocations.FirstWatch; easter-egg for getting up early
 }
 
 export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map([
@@ -38,4 +40,5 @@ export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map(
     [AliasInvocations.Gratitude, Invocations.Gratefulness],
     [AliasInvocations.ColdShower, Invocations.ColdShower],
     [AliasInvocations.MakeBed, Invocations.MakeBed],
+    [AliasInvocations.Wormcatcher, Invocations.Firstwatch],
 ])
