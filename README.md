@@ -28,7 +28,18 @@ Our stack is built with Typescript, NPM, and MySQL. There is no frontend or webs
 Here's the config that we'll use for now. Place it into `src/config/config.ts`.
 
 ```
-
+export default {
+    key: 'contact-entersudonym-for-this',
+    people: {
+        owner: 'server-owner-here', // Probably Jakk
+        techLead: 'tech-leader-here' // Probably entersudonym
+    },
+    channels: {
+        mainChat: '647951827626622977',
+        newComers: '647941333784461366',
+        progressReporting: '647952101363679243'
+    }
+}
 ```
 
 For the actual in-development Freedom Bot API token, contact `@entersudonym` on Discord.
