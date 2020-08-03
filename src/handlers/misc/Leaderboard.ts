@@ -20,16 +20,12 @@ export default class LeaderboardHandler extends AbstractHandler {
         for (let i = 0; i < users.length; i++) {
             const currUser = users[i]
 
-            
-
             if(expired){
 
                 let discordUser: GuildMember
 
                 try
                 {
-                    msg.reply("This may take a few seconds to display. Hang on!")
-
                     discordUser = await msg.guild.members.fetch(currUser.discordId)
 
                     const username = await discordUser.user.username
@@ -76,13 +72,9 @@ export default class LeaderboardHandler extends AbstractHandler {
             }
 
             }
-
         catch(e)
         {
             return false;
         }
-
     }
-
-
 }
