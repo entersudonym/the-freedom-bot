@@ -15,9 +15,11 @@ import { unaliasInvocation } from '../util/unalias'
 export async function handleMessage(msg: Message) {
     // Get user or create one if it doesn't exist
     const authorId = msg.author.id
+    
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
-        user = await createUser(authorId)
+        const username = msg.author.username
+        user = await createUser(authorId, username)
     }
 
     // Get the appropriate handler, instantiate it, and run an evaluation
