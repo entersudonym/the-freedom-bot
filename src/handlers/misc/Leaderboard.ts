@@ -4,7 +4,7 @@ import { User } from '../../entity/User'
 import {updateName} from "../../util/update"
 import AbstractHandler from '../abstract/AbstractHandler'
 
-let exp_date : Object;
+let exp_date : Object = new Date();
 
 
 export default class LeaderboardHandler extends AbstractHandler {
