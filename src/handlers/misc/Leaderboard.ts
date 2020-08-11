@@ -1,10 +1,10 @@
 import { Message, GuildMember } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
-import {updateName} from "../../util/update"
+import { updateName } from "../../util/updateName"
 import AbstractHandler from '../abstract/AbstractHandler'
 
-let exp_date : Object = new Date();
+let exp_date : Date;
 
 
 export default class LeaderboardHandler extends AbstractHandler {
@@ -55,26 +55,21 @@ export default class LeaderboardHandler extends AbstractHandler {
     {
         const date = new Date();
 
-        try{
-
-            if(date < exp_date)
+            if(date > exp_date || date == undefined)
                 {
-                    return false
+
+                    date.setDate(date.getDate() + 15)
+
+                    exp_date = date;
+
+                    return true
                 }
 
             else
             {
-                date.setDate(date.getDate() + 7)
-
-                exp_date = date;
-
-                return true;
+               return false;
             }
 
             }
-        catch(e)
-        {
-            return false;
-        }
     }
-}
+
