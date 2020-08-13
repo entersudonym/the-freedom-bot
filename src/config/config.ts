@@ -1,8 +1,8 @@
 export default {
     key: 'contact-entersudonym-for-this',
     people: {
-        owner: 'server-owner-here', // Probably Jakk
-        techLead: 'tech-leader-here' // Probably entersudonym
+        owner: '540386942131503115', // Probably Jakk
+        techLead: '390752251532279828' // Probably entersudonym
     },
     channels: {
         mainChat: '647951827626622977',
