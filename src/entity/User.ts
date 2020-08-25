@@ -15,5 +15,5 @@ export class User extends BaseEntity {
     timeZone: string // from the IANA timezone database
 
     @Column()
-    username : string
+    username: string
 }
