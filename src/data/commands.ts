@@ -4,7 +4,7 @@ const commands: ICommand[] = [
     {
         name: 'Making Affirmations',
         altName: 'Affirmations',
-        description: 'Record if you practiced positive affirmations in a given day.',
+        description: 'Record if you wrote and said three affirmations in a given day.',
         invocation: Invocations.Affirmation,
         points: 0.5,
         isDaily: true,
