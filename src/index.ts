@@ -26,7 +26,7 @@ async function init() {
 init().then(async () => {
     console.log('Discord and database initialization complete')
 
-    client.on('message', async msg => {
+    client.on('message', async (msg) => {
         if (msg.author.bot) return
         if (!shouldRespond(msg)) return
 
@@ -46,12 +46,13 @@ init().then(async () => {
         }
     })
 
-    client.on('guildMemberAdd', member => {
+    client.on('guildMemberAdd', (member) => {
         const channel = getChannelFromClient(client, config.channels.newComers)
         ;(channel as TextChannel).send(getWelcomeMessage((member.user as DiscordUser).id))
     })
 
-    client.on('guildMemberRemove', async member => {
+    client.on('guildMemberRemove', async (member) => {
+        // TODO(entersudonym): Remove the user from the database, and all associated data.
         const channel = getChannelFromClient(client, config.channels.adminChannel)
         ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).id))
     })
