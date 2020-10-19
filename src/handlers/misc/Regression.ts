@@ -35,7 +35,7 @@ export default class RegressionHandler extends AbstractDayHandler {
 
         let dayDiff = -1
         if (lastRelapse) {
-            const dayDiff = moment(lastRelapse.date).diff(moment(), 'days')
+            const dayDiff = moment().diff(moment(lastRelapse.date), 'days')
             console.log(
                 `Last relapse recorded at ${lastRelapse.date}, days since then is ${dayDiff}. Was it a regression: ${lastRelapse.isRegression}`
             )
@@ -52,7 +52,7 @@ export default class RegressionHandler extends AbstractDayHandler {
             nextRankValue = Math.floor(currRank.value / 2)
         }
         const nextRank = findRankFromValue(nextRankValue)
-        console.log(`Next rank will be: ${nextRank}`)
+        console.log(`Next rank will be: ${nextRank.name}`)
 
         const existingPoints = user.points
         const pointsToRemove = existingPoints - nextRank.lowerBound
