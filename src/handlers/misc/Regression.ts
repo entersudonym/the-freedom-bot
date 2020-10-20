@@ -43,6 +43,8 @@ export default class RegressionHandler extends AbstractDayHandler {
             console.log('No last relapse on file.')
         }
 
+        console.log('!lastRelapse: ', !lastRelapse)
+        console.log('dayDiff >= 7: ', dayDiff >= 7)
         if (!lastRelapse || dayDiff >= 7) {
             console.log('Reducing rank by just 1.')
             nextRankValue = Math.max(currRank.value - 1, 0)
