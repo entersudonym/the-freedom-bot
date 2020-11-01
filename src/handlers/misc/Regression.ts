@@ -18,7 +18,7 @@ export default class RegressionHandler extends AbstractDayHandler {
     protected async rerank(
         discordUser: GuildMember,
         prevPoints: number,
-        newPoints: number
+        newPoints: number,
     ): Promise<void> {
         // TODO: Write a custom handler for this!
         await super.rerank(discordUser, prevPoints, newPoints)
@@ -35,9 +35,9 @@ export default class RegressionHandler extends AbstractDayHandler {
 
         let dayDiff = -1
         if (lastRelapse) {
-            const dayDiff = moment().diff(moment(lastRelapse.date), 'days')
+            dayDiff = moment().diff(moment(lastRelapse.date), 'days')
             console.log(
-                `Last relapse recorded at ${lastRelapse.date}, days since then is ${dayDiff}. Was it a regression: ${lastRelapse.isRegression}`
+                `Last relapse recorded at ${lastRelapse.date}, days since then is ${dayDiff}. Was it a regression: ${lastRelapse.isRegression}`,
             )
         } else {
             console.log('No last relapse on file.')
@@ -78,8 +78,8 @@ export default class RegressionHandler extends AbstractDayHandler {
         return msg.reply(
             `your relapse has been recorded. You lost ${pluralize(
                 pointsToRemove,
-                'point'
-            )} and now have ${pluralize(user.points, 'point')}.`
+                'point',
+            )} and now have ${pluralize(user.points, 'point')}.`,
         )
     }
 }
