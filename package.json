@@ -12,7 +12,7 @@
       "@types/moment": "^2.13.0",
       "@types/moment-timezone": "^0.5.13",
       "axios": "^0.19.2",
-      "discord.js": "^12.1.1",
+      "discord.js": "^12.4.1",
       "moment": "^2.24.0",
       "moment-timezone": "^0.5.28",
       "mysql": "^2.14.1",
