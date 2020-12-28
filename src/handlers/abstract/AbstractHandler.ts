@@ -15,6 +15,7 @@ import pluralize from '../../util/pluralize'
 import { errorReply } from '../../util/embeds'
 import ErrorTitles from '../../util/ErrorTitles'
 import { isAdmin } from '../../util/permissions'
+import { getReflection } from '../../util/getReflection'
 
 export default abstract class AbstractHandler {
     /**
@@ -30,7 +31,7 @@ export default abstract class AbstractHandler {
         protected adminOnly: boolean,
         protected shouldRerank: boolean,
         protected ensureDayElapsed: boolean,
-        protected verifyMention: boolean
+        protected verifyMention: boolean,
     ) {}
 
     protected abstract async handler(user: User, cmd: Command, msg: Message): Promise<any>
@@ -38,7 +39,7 @@ export default abstract class AbstractHandler {
     protected async rerank(
         discordUser: GuildMember,
         prevPoints: number,
-        newPoints: number
+        newPoints: number,
     ): Promise<void> {
         const prevRank = findRangeEntity(prevPoints, Ranks) as IRank
         const newRank = findRangeEntity(newPoints, Ranks) as IRank
@@ -58,16 +59,17 @@ export default abstract class AbstractHandler {
                 ;(mainChat as TextChannel).send(
                     `Good news! ${tagU(discordUser.user.id)} leveled up from ${prevRank.name} to ${
                         newRank.name
-                    }.`
+                    }.`,
                 )
             } else {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 const nfChat = getChannelFromClient(discordUser.client, config.channels.nf)
+                const reflection = getReflection()
                 ;(nfChat as TextChannel).send(
                     `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
                         newRank.name
-                    } due to a relapse.`
+                    } due to a relapse. ${tagU(discordUser.user.id)}, ${reflection}`,
                 )
             }
         }
@@ -89,7 +91,7 @@ export default abstract class AbstractHandler {
                 return errorReply(
                     msg,
                     'Authentication Error',
-                    'that command is reserved solely for admins.'
+                    'that command is reserved solely for admins.',
                 )
             }
         }
@@ -102,7 +104,7 @@ export default abstract class AbstractHandler {
                     return errorReply(
                         msg,
                         ErrorTitles.TimeElapsed,
-                        `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`
+                        `you ran that command less than 24 hours ago. If you'd like to base the bot-timings on your timezone, use the **!${InfoInvocations.Timezone}** command.`,
                     )
                 } else {
                     // They have a timezone
@@ -116,8 +118,8 @@ export default abstract class AbstractHandler {
                         ErrorTitles.TimeElapsed,
                         `you already ran that command today. Wait for the end of the day (in about ${pluralize(
                             timeToWait,
-                            'hour'
-                        )}).`
+                            'hour',
+                        )}).`,
                     )
                 }
             }
@@ -130,7 +132,7 @@ export default abstract class AbstractHandler {
                 return errorReply(
                     msg,
                     ErrorTitles.NeedsToMention,
-                    'you must mention the user on whom to run this command.'
+                    'you must mention the user on whom to run this command.',
                 )
             }
 
@@ -138,7 +140,7 @@ export default abstract class AbstractHandler {
                 return errorReply(
                     msg,
                     ErrorTitles.TooManyMentioned,
-                    'you can only mention one user at a time.'
+                    'you can only mention one user at a time.',
                 )
             }
         }

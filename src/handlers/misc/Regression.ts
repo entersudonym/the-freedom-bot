@@ -30,31 +30,19 @@ export default class RegressionHandler extends AbstractDayHandler {
         const lastRelapse = await getLastSetDay(user, true)
 
         let nextRankValue: number
-        console.log('\n\n-------------------------------')
-        console.log(`Processing relapse for discordId ${user.discordId}, userId is ${user.id}`)
 
         let dayDiff = -1
         if (lastRelapse) {
             dayDiff = moment().diff(moment(lastRelapse.date), 'days')
-            console.log(
-                `Last relapse recorded at ${lastRelapse.date}, days since then is ${dayDiff}. Was it a regression: ${lastRelapse.isRegression}`,
-            )
-        } else {
-            console.log('No last relapse on file.')
         }
 
-        console.log('!lastRelapse: ', !lastRelapse)
-        console.log('dayDiff >= 7: ', dayDiff >= 7)
         if (!lastRelapse || dayDiff >= 7) {
-            console.log('Reducing rank by just 1.')
             nextRankValue = Math.max(currRank.value - 1, 0)
         } else {
             // Binge
-            console.log('Reducing rank by half.')
             nextRankValue = Math.floor(currRank.value / 2)
         }
         const nextRank = findRankFromValue(nextRankValue)
-        console.log(`Next rank will be: ${nextRank.name}`)
 
         const existingPoints = user.points
         const pointsToRemove = existingPoints - nextRank.lowerBound
