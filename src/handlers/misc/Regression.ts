@@ -9,6 +9,7 @@ import moment = require('moment')
 import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
 import pluralize from '../../util/pluralize'
+import { getReflection } from '../../util/getReflection'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -59,15 +60,13 @@ export default class RegressionHandler extends AbstractDayHandler {
         await user.save()
 
         await this.rerankStreaks(msg.member, lastSetDay.day, 0)
-        // TODO(N): Show them something inspirational.
-        // Probably want to make a module that will fetch a URL from the NoFap website. Take a peek
-        // at Emergency.ts to see how we do it.
-        // TODO: Write a message formatter that deals with formatting floating points/embeds.
+
+        const reflection = getReflection()
         return msg.reply(
             `your relapse has been recorded. You lost ${pluralize(
                 pointsToRemove,
                 'point',
-            )} and now have ${pluralize(user.points, 'point')}.`,
+            )} and now have ${pluralize(user.points, 'point')}. ${reflection}`,
         )
     }
 }

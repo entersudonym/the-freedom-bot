@@ -1,21 +1,19 @@
-import { Message, TextChannel } from 'discord.js'
-import { User } from '../../entity/User'
-import { Command } from '../../entity/Command'
-import { GuildMember } from 'discord.js'
-import { findRangeEntity } from '../../util/rangeFinder'
-import Ranks, { IRank } from '../../data/ranks'
-import { getChannelFromClient, getRole } from '../../util/discord'
+import { GuildMember, Message, TextChannel } from 'discord.js'
 import config from '../../config/config'
-import { tagU } from '../../util/tagger'
-import { Report } from '../../entity/Report'
-import { getLastReport } from '../../util/db'
-import moment = require('moment-timezone')
 import { InfoInvocations } from '../../data/invocations'
-import pluralize from '../../util/pluralize'
+import Ranks, { IRank } from '../../data/ranks'
+import { Command } from '../../entity/Command'
+import { Report } from '../../entity/Report'
+import { User } from '../../entity/User'
+import { getLastReport } from '../../util/db'
+import { getChannelFromClient, getRole } from '../../util/discord'
 import { errorReply } from '../../util/embeds'
 import ErrorTitles from '../../util/ErrorTitles'
 import { isAdmin } from '../../util/permissions'
-import { getReflection } from '../../util/getReflection'
+import pluralize from '../../util/pluralize'
+import { findRangeEntity } from '../../util/rangeFinder'
+import { tagU } from '../../util/tagger'
+import moment = require('moment-timezone')
 
 export default abstract class AbstractHandler {
     /**
@@ -65,11 +63,10 @@ export default abstract class AbstractHandler {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 const nfChat = getChannelFromClient(discordUser.client, config.channels.nf)
-                const reflection = getReflection()
                 ;(nfChat as TextChannel).send(
                     `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
                         newRank.name
-                    } due to a relapse. ${tagU(discordUser.user.id)}, ${reflection}`,
+                    } due to a relapse.`,
                 )
             }
         }
