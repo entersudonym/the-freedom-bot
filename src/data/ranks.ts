@@ -156,7 +156,7 @@ export default [
     {
         name: RankNames.Knight,
         value: 20,
-        lowerBound: 808,
+        lowerBound: 1000,
         upperBound: 1250,
     },
     {

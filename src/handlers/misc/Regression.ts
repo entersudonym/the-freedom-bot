@@ -9,6 +9,7 @@ import moment = require('moment')
 import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
 import pluralize from '../../util/pluralize'
+import { getReflection } from '../../util/getReflection'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -18,7 +19,7 @@ export default class RegressionHandler extends AbstractDayHandler {
     protected async rerank(
         discordUser: GuildMember,
         prevPoints: number,
-        newPoints: number
+        newPoints: number,
     ): Promise<void> {
         // TODO: Write a custom handler for this!
         await super.rerank(discordUser, prevPoints, newPoints)
@@ -30,7 +31,13 @@ export default class RegressionHandler extends AbstractDayHandler {
         const lastRelapse = await getLastSetDay(user, true)
 
         let nextRankValue: number
-        if (!lastRelapse || moment(lastRelapse.date).diff(moment(), 'days') >= 7) {
+
+        let dayDiff = -1
+        if (lastRelapse) {
+            dayDiff = moment().diff(moment(lastRelapse.date), 'days')
+        }
+
+        if (!lastRelapse || dayDiff >= 7) {
             nextRankValue = Math.max(currRank.value - 1, 0)
         } else {
             // Binge
@@ -53,15 +60,13 @@ export default class RegressionHandler extends AbstractDayHandler {
         await user.save()
 
         await this.rerankStreaks(msg.member, lastSetDay.day, 0)
-        // TODO(N): Show them something inspirational.
-        // Probably want to make a module that will fetch a URL from the NoFap website. Take a peek
-        // at Emergency.ts to see how we do it.
-        // TODO: Write a message formatter that deals with formatting floating points/embeds.
+
+        const reflection = getReflection()
         return msg.reply(
             `your relapse has been recorded. You lost ${pluralize(
                 pointsToRemove,
-                'point'
-            )} and now have ${pluralize(user.points, 'point')}.`
+                'point',
+            )} and now have ${pluralize(user.points, 'point')}. ${reflection}`,
         )
     }
 }
