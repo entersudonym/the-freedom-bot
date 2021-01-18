@@ -9,7 +9,6 @@ import moment = require('moment')
 import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
 import pluralize from '../../util/pluralize'
-import { getReflection } from '../../util/getReflection'
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -61,12 +60,11 @@ export default class RegressionHandler extends AbstractDayHandler {
 
         await this.rerankStreaks(msg.member, lastSetDay.day, 0)
 
-        const reflection = getReflection()
         return msg.reply(
             `your relapse has been recorded. You lost ${pluralize(
                 pointsToRemove,
                 'point',
-            )} and now have ${pluralize(user.points, 'point')}. ${reflection}`,
+            )} and now have ${pluralize(user.points, 'point')}`,
         )
     }
 }
