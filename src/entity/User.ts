@@ -13,7 +13,4 @@ export class User extends BaseEntity {
 
     @Column({ nullable: true, default: null })
     timeZone: string // from the IANA timezone database
-
-    @Column()
-    username: string
 }
