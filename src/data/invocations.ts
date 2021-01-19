@@ -23,6 +23,7 @@ export enum InfoInvocations {
     AdminAdjustScore = 'adjustscore',
     AdminViewStreak = 'viewstreak',
     AdminSetStreak = 'setstreak',
+    Ragamuffin = 'ragamuffin',
 }
 
 export enum AliasInvocations {
