@@ -35,8 +35,8 @@ init().then(async () => {
         } catch (e) {
             msg.channel.send(
                 `There was an error with the bot. The ${tagR(
-                    MiscServerRoles.TechGuy
-                )}s have been notified. Please temporarily refrain from running commands.`
+                    MiscServerRoles.TechGuy,
+                )}s have been notified. Please temporarily refrain from running commands.`,
             )
 
             const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
@@ -54,7 +54,7 @@ init().then(async () => {
     client.on('guildMemberRemove', async (member) => {
         // TODO(entersudonym): Remove the user from the database, and all associated data.
         const channel = getChannelFromClient(client, config.channels.adminChannel)
-        ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).id))
+        ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).username))
     })
 })
 
