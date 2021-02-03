@@ -1,7 +1,9 @@
-import { Message, GuildMemberRoleManager } from 'discord.js'
+import { Message, GuildMemberRoleManager, MessageEmbed } from 'discord.js'
 import { User } from '../../entity/User'
 import AbstractHandler from '../abstract/AbstractHandler'
 import { Command } from '../../entity/Command'
+import { buildEmbed } from "../../util/embeds"
+import config from '../../config/config'
 
 export default class RoleHandler extends AbstractHandler {
     public constructor() {
@@ -10,17 +12,20 @@ export default class RoleHandler extends AbstractHandler {
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
         const userRoles: GuildMemberRoleManager = await msg.member.roles
-        const raconteur = '799498542641053726' // this should refer to the role in config.ts 0_0
-        let confirmation = 'Something went wrong' // In case the if-else somehow fails (not likely)
+        const raconteur = config.roles.raconteur
+        let roleAssigned = false
 
         if (await userRoles.cache.has(raconteur)) {
             await userRoles.remove(raconteur)
-            confirmation = 'The role Raconteur has been removed'
         } else {
             await userRoles.add(raconteur)
-            confirmation = 'You have been assigned the Raconteur role'
+            roleAssigned = true
         }
 
-        return msg.channel.send(confirmation)
+        const embed : MessageEmbed = buildEmbed('I', 
+            roleAssigned? "Role Assigned" : "Role Removed",
+            msg.author.id,
+            roleAssigned? "You have been given the Raconteur role" : "Your Raconteur role has been removed")
+        return msg.channel.send(embed)
     }
 }
