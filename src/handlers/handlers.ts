@@ -15,6 +15,7 @@ import RankHandler from './misc/Ranks'
 import AdminAdjustScore from './admin/AdjustScore'
 import TimeZoneHandler from './misc/TimeZone'
 import AdminModifyStreak from './admin/SetStreak'
+import RoleHandler from './misc/Roles';
 
 const handlers: Map<string, AbstractHandler> = new Map()
 
@@ -43,5 +44,6 @@ handlers.set(InfoInvocations.AdminAdjustScore, new AdminAdjustScore())
 handlers.set(InfoInvocations.AdminSetStreak, new AdminModifyStreak())
 handlers.set(InfoInvocations.Emergency, new EmergencyHandler())
 handlers.set(InfoInvocations.Timezone, new TimeZoneHandler())
+handlers.set(InfoInvocations.Ragamuffin, new RoleHandler())
 
 export default handlers

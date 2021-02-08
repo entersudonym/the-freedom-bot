@@ -151,6 +151,15 @@ const commands: ICommand[] = [
         isAdmin: false,
     },
     {
+        name: 'Ragamuffin',
+        description:
+            'Opt-in to a channel where anything goes. Enter command again to opt-out. (Janissary or above only)',
+        invocation: InfoInvocations.Ragamuffin,
+        points: null,
+        isDaily: false,
+        isAdmin: false,
+    },
+    {
         name: 'Admin View Score',
         description: 'View the score of any member by running the command and tagging them.',
         invocation: InfoInvocations.AdminViewScore,

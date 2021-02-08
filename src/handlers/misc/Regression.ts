@@ -10,6 +10,7 @@ import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
 import pluralize from '../../util/pluralize'
 import { getReflection } from '../../util/getReflection'
+import config from '../../config/config';
 
 export default class RegressionHandler extends AbstractDayHandler {
     public constructor() {
@@ -57,6 +58,14 @@ export default class RegressionHandler extends AbstractDayHandler {
         }).save()
 
         user.points = user.points - pointsToRemove
+
+        const msgAuthor = await msg.member.fetch()
+        const userRoles = await msgAuthor.roles
+        const janissaryLowerbound = ranks[4].lowerBound
+        
+        if(user.points < janissaryLowerbound && await userRoles.cache.has(config.roles.raconteur)){
+            userRoles.remove(config.roles.raconteur)
+        }
         await user.save()
 
         await this.rerankStreaks(msg.member, lastSetDay.day, 0)
