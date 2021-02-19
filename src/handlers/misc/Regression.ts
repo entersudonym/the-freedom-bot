@@ -64,7 +64,7 @@ export default class RegressionHandler extends AbstractDayHandler {
             `your relapse has been recorded. You lost ${pluralize(
                 pointsToRemove,
                 'point',
-            )} and now have ${pluralize(user.points, 'point')}`,
+            )} and now have ${pluralize(user.points, 'point')}.`,
         )
     }
 }

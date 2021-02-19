@@ -64,11 +64,13 @@ export default abstract class AbstractHandler {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 const reflection = getReflection()
+                let username = discordUser.user.username
+                username = username.charAt(0).toUpperCase() + username.slice(1)     //Capitalises the first letter of the username
                 const nfChat = getChannelFromClient(discordUser.client, config.channels.nf)
                 ;(nfChat as TextChannel).send(
                     `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
                         newRank.name
-                    } due to a relapse.\n${reflection}`,
+                    } due to a relapse.\n${username}, ${reflection}`,
                 )
             }
         }
