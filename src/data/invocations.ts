@@ -42,3 +42,7 @@ export const AliasMapping: Map<string, Invocations | InfoInvocations> = new Map(
     [AliasInvocations.MakeBed, Invocations.MakeBed],
     [AliasInvocations.Wormcatcher, Invocations.Firstwatch],
 ])
+
+export enum EasterEggInvocations {
+    DrillBrush = 'drillbrush',
+}
