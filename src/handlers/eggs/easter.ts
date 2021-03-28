@@ -3,7 +3,7 @@ import { EasterEggInvocations } from '../../data/invocations'
 import { buildEmbed } from '../../util/embeds'
 
 // Returns whether the message was easter eggy.
-export const handleEastEgg = (msg: Message, invocation: string): boolean => {
+export const handleEasterEgg = (msg: Message, invocation: string): boolean => {
     if (invocation === EasterEggInvocations.DrillBrush) {
         const embed = buildEmbed(
             'S',

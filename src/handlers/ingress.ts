@@ -11,6 +11,7 @@ import { findSimilarCommands } from '../util/suggest'
 import handlers from './handlers'
 import { isAdmin } from '../util/permissions'
 import { unaliasInvocation } from '../util/unalias'
+import { handleEasterEgg } from './eggs/easter'
 
 export async function handleMessage(msg: Message) {
     // Get user or create one if it doesn't exist
@@ -23,6 +24,11 @@ export async function handleMessage(msg: Message) {
     // Get the appropriate handler, instantiate it, and run an evaluation
     const invocation = unaliasInvocation(getInvocationFromMessage(msg.content))
 
+    const wasEasterEgg = handleEasterEgg(msg, invocation)
+    if (wasEasterEgg) {
+        return
+    }
+
     const handler = handlers.get(invocation)
     if (!handler) {
         const similarCommands = await findSimilarCommands(invocation, 3, isAdmin(msg.member))
@@ -32,7 +38,7 @@ export async function handleMessage(msg: Message) {
     const lastSetDay = await getLastSetDay(user)
     if (invocation !== Invocations.SetDay && !lastSetDay) {
         return msg.reply(
-            `you need to set your day first using the **!${Invocations.SetDay} <day>** command.`
+            `you need to set your day first using the **!${Invocations.SetDay} <day>** command.`,
         )
     }
 
