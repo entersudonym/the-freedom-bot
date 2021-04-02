@@ -12,4 +12,5 @@ export enum MiscServerRoles {
     Moderator = '624134002290196481',
     Owner = '540757757926834177',
     TechGuy = '550918127995584512',
+    SpecialForces = '827394270176477254',
 }

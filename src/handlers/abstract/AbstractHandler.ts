@@ -6,7 +6,7 @@ import { Command } from '../../entity/Command'
 import { Report } from '../../entity/Report'
 import { User } from '../../entity/User'
 import { getLastReport } from '../../util/db'
-import { getChannelFromClient, getRole } from '../../util/discord'
+import { getChannelFromClient, getRole, hasRole } from '../../util/discord'
 import { errorReply } from '../../util/embeds'
 import ErrorTitles from '../../util/ErrorTitles'
 import { isAdmin } from '../../util/permissions'
@@ -14,6 +14,7 @@ import pluralize from '../../util/pluralize'
 import { findRangeEntity } from '../../util/rangeFinder'
 import { tagU } from '../../util/tagger'
 import moment = require('moment-timezone')
+import { MiscServerRoles } from '../../data/roles'
 
 export default abstract class AbstractHandler {
     /**
@@ -63,10 +64,18 @@ export default abstract class AbstractHandler {
                 // TODO: We shouldn't get here. This message should be handled by the Regression handler.
                 // Right now, we'll only get here for a Regression, but this should be fixed.
                 const nfChat = getChannelFromClient(discordUser.client, config.channels.nf)
+
+                const isSpecialForces = hasRole(discordUser, [MiscServerRoles.SpecialForces])
+                const specialForcesString = isSpecialForces
+                    ? 'A Special Forces member has relapsed!'
+                    : ''
+
+                const rankDemotionString = `${tagU(discordUser.user.id)} was demoted from ${
+                    prevRank.name
+                } to ${newRank.name} due to a relapse.`
+
                 ;(nfChat as TextChannel).send(
-                    `Attention! ${tagU(discordUser.user.id)} was demoted from ${prevRank.name} to ${
-                        newRank.name
-                    } due to a relapse.`,
+                    `Attention! ${specialForcesString} ${rankDemotionString}`,
                 )
             }
         }
