@@ -67,15 +67,15 @@ export default abstract class AbstractHandler {
 
                 const isSpecialForces = hasRole(discordUser, [MiscServerRoles.SpecialForces])
                 const specialForcesString = isSpecialForces
-                    ? 'A Special Forces member has relapsed!'
+                    ? ' A Special Forces member has relapsed!'
                     : ''
 
-                const rankDemotionString = `${tagU(discordUser.user.id)} was demoted from ${
+                const rankDemotionString = ` ${tagU(discordUser.user.id)} was demoted from ${
                     prevRank.name
                 } to ${newRank.name} due to a relapse.`
 
                 ;(nfChat as TextChannel).send(
-                    `Attention! ${specialForcesString} ${rankDemotionString}`,
+                    `Attention!${specialForcesString}${rankDemotionString}`,
                 )
             }
         }
