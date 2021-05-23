@@ -28,7 +28,6 @@ init().then(async () => {
 
     client.on('message', async (msg) => {
         if (msg.author.bot) return
-        if (!shouldRespond(msg)) return
 
         try {
             await handleMessage(msg)
@@ -57,7 +56,3 @@ init().then(async () => {
         ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).username))
     })
 })
-
-function shouldRespond(msg: Message) {
-    return msg.content.startsWith('!') && msg.channel.id === config.channels.progressReporting
-}
