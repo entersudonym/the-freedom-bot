@@ -53,7 +53,7 @@ init().then(async () => {
 
     client.on('guildMemberRemove', async (member) => {
         // TODO(entersudonym): Remove the user from the database, and all associated data.
-        const channel = getChannelFromClient(client, config.channels.adminChannel)
+        const channel = getChannelFromClient(client, config.channels.exit)
         ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).username))
     })
 })
