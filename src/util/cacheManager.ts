@@ -9,7 +9,8 @@ export function addEntry(msg : Message, channel : 'j'|'g') : void{
     const cache = resolveCache(channel)
     const userID = msg.author.id
     const currTime = new Date() //NOAH: Is this supposed to a Date Object or something like moment()?
-    cache.set(userID, currTime)
+    const datestr = currTime.toDateString()
+    cache.set(userID, datestr)
 }
 
 

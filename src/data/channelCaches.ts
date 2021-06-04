@@ -1,3 +1,3 @@
-export let journalCache: Map<string, Date> = new Map()
+export let journalCache: Map<string, string> = new Map()
 
-export let gratefulnessCache: Map<string, Date> = new Map()
+export let gratefulnessCache: Map<string, string> = new Map()
