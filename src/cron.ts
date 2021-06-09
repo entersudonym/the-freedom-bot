@@ -16,10 +16,10 @@ const getMsFromReadableDates = ({
     hours?: number
     days?: number
 }) => {
-    const msFromSeconds = (seconds ?? 0) * 1000
-    const msFromMinutes = (minutes ?? 0) * 60 * 1000
-    const msFromHours = (hours ?? 0) * 60 * 60 * 1000
-    const msFromDays = (days ?? 0) * 24 * 60 * 60 * 1000
+    const msFromSeconds = (seconds || 0) * 1000
+    const msFromMinutes = (minutes || 0) * 60 * 1000
+    const msFromHours = (hours || 0) * 60 * 60 * 1000
+    const msFromDays = (days || 0) * 24 * 60 * 60 * 1000
 
     return msFromSeconds + msFromMinutes + msFromHours + msFromDays
 }
