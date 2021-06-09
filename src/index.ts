@@ -8,6 +8,7 @@ import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
+import { startBumpingServer } from './cron'
 const client = new Client()
 
 // Initializes the connection to Discord and the database
@@ -56,6 +57,8 @@ init().then(async () => {
         const channel = getChannelFromClient(client, config.channels.exit)
         ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).username))
     })
+
+    startBumpingServer(client)
 })
 
 function shouldRespond(msg: Message) {
