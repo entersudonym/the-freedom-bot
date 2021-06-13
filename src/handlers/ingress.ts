@@ -12,10 +12,25 @@ import handlers from './handlers'
 import { isAdmin } from '../util/permissions'
 import { unaliasInvocation } from '../util/unalias'
 import { handleEasterEgg } from './eggs/easter'
+import { addEntry } from '../util/cacheManager';
+import config from '../config/config'
 
 export async function handleMessage(msg: Message) {
-    // Get user or create one if it doesn't exist
     const authorId = msg.author.id
+    const channel = msg.channel.toString()
+
+    if(channel == config.channels.journals){
+        addEntry(msg, 'j')
+        return
+    }
+    else if(channel == config.channels.gratefulness){
+        addEntry(msg, 'g')
+        return
+    }
+
+    if (!shouldRespond(msg)) {return}
+
+    // Get user or create one if it doesn't exist
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
         user = await createUser(authorId)
@@ -64,4 +79,8 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // Throws if the command isn't found. Should be caught in index.
     // @ts-ignore
     return await Command.findOneOrFail({ invocation })
+}
+
+function shouldRespond(msg: Message) {
+    return msg.content.startsWith('!') && msg.channel.id === config.channels.progressReporting 
 }
