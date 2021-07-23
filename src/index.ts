@@ -27,7 +27,7 @@ init().then(async () => {
     console.log('Discord and database initialization complete')
 
     client.on('message', async (msg) => {
-        if (msg.author.bot) return
+        if (msg.author.bot || !msg.content.startsWith('!')) return
 
         try {
             await handleMessage(msg)

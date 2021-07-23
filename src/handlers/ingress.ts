@@ -19,21 +19,21 @@ export async function handleMessage(msg: Message) {
     const authorId = msg.author.id
     const channel = msg.channel.toString()
 
-    if(channel == config.channels.journals){
-        addEntry(msg, 'j')
-        return
-    }
-    else if(channel == config.channels.gratefulness){
-        addEntry(msg, 'g')
-        return
-    }
-
-    if (!shouldRespond(msg)) {return}
-
     // Get user or create one if it doesn't exist
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
         user = await createUser(authorId)
+    }
+
+    // Intercepts messages from #journals or #thank-you
+    if(channel === config.channels.journals){
+        addEntry(user, 'journal')
+    }
+    else if(channel === config.channels.gratefulness){
+        addEntry(user, 'gratefulness')
+    }
+    else if(channel !== config.channels.progressReporting){
+        return
     }
 
     // Get the appropriate handler, instantiate it, and run an evaluation
@@ -79,8 +79,4 @@ async function getCommandFromInvocation(invocation: string): Promise<Command | n
     // Throws if the command isn't found. Should be caught in index.
     // @ts-ignore
     return await Command.findOneOrFail({ invocation })
-}
-
-function shouldRespond(msg: Message) {
-    return msg.content.startsWith('!') && msg.channel.id === config.channels.progressReporting 
 }

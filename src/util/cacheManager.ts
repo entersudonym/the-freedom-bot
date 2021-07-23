@@ -1,26 +1,28 @@
-import { Message } from 'discord.js';
-import { journalCache, gratefulnessCache} from '../data/channelCaches'
+import { User } from '../entity/User'
+import { journalCache, gratefulnessCache, caches} from '../data/channelCaches'
 
 /**
- * @param msg The message object.
- * @param channel The channel whose cache needs to be updated. 'j' stands for Journal and 'g' for Gratefulness
+ * @param user The user
+ * @param cacheType The cache that needs to be updated 
  */
-export function addEntry(msg : Message, channel : 'j'|'g') : void{
-    const cache = resolveCache(channel)
-    const userID = msg.author.id
-    const currTime = new Date() //NOAH: Is this supposed to a Date Object or something like moment()?
+export function addEntry(user: User, cacheType : caches) : void{
+    const cache = resolveCache(cacheType)
+    const userID = user.discordId
+    const currTime = new Date()
     const datestr = currTime.toDateString()
     cache.set(userID, datestr)
 }
 
 
 /**
- * @param msg The message object.
- * @param channel The channel whose cache needs to be queried. 'j' stands for Journal and 'g' for Gratefulness
+ * @param user The user
+ * @param cacheType The cache that needs to be updated
  */
-export function validiateEntry(msg : Message, channel: 'j'|'g') : boolean{
-    const cache = resolveCache(channel)
-    const userID = msg.author.id
+export function validiateEntry(user: User , cacheType: caches) : boolean{
+    const cache = resolveCache(cacheType)
+    const userID = user.discordId
+    const timezone = user.timeZone
+
     const last_entry = cache.get(userID)
     if(!last_entry){
         return false
@@ -35,10 +37,10 @@ export function validiateEntry(msg : Message, channel: 'j'|'g') : boolean{
 }
 
 /**
- * @param channel The channel whose cache needs to be cleaned. 'j' stands for Journal and 'g' for Gratefulness
+ * @param cacheType The cache that needs to be cleaned
  */
-export function purgeCache(channel: 'j'|'g') : void{
-    const cache = resolveCache(channel)
+export function purgeCache(cacheType: caches) : void{
+    const cache = resolveCache(cacheType)
     for(let entry in cache.entries){
         const key = entry[0]
         const entryDate = entry[1]
@@ -52,11 +54,11 @@ export function purgeCache(channel: 'j'|'g') : void{
     }
 }
 
-function resolveCache(cacheType : 'j'|'g'){
-    if(cacheType == 'j'){
+function resolveCache(cacheType : caches){
+    if(cacheType === "journal"){
         return journalCache
     }
-    else if(cacheType == 'g'){
+    else if(cacheType === "gratefulness"){
         return gratefulnessCache
     }
     else{
