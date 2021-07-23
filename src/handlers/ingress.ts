@@ -12,13 +12,28 @@ import handlers from './handlers'
 import { isAdmin } from '../util/permissions'
 import { unaliasInvocation } from '../util/unalias'
 import { handleEasterEgg } from './eggs/easter'
+import { addEntry } from '../util/cacheManager';
+import config from '../config/config'
 
 export async function handleMessage(msg: Message) {
-    // Get user or create one if it doesn't exist
     const authorId = msg.author.id
+    const channel = msg.channel.toString()
+
+    // Get user or create one if it doesn't exist
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
         user = await createUser(authorId)
+    }
+
+    // Intercepts messages from #journals or #thank-you
+    if(channel === config.channels.journals){
+        addEntry(user, 'journal')
+    }
+    else if(channel === config.channels.gratefulness){
+        addEntry(user, 'gratefulness')
+    }
+    else if(channel !== config.channels.progressReporting){
+        return
     }
 
     // Get the appropriate handler, instantiate it, and run an evaluation
