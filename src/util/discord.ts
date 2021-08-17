@@ -8,7 +8,7 @@ import Collection from '@discordjs/collection'
  * channel that may be the channel from which a message originates.
  */
 export function getChannelFromClient(client: Client, channelId: string): Channel {
-    const channel = client.channels.resolve(channelId)
+    const channel = client.channels.cache.get(channelId)
     if (!channel) throw new Error(`Channel with id ${channelId} could not be found.`)
 
     return channel
@@ -27,5 +27,5 @@ export function hasRole(user: GuildMember, roles: string[]): boolean {
 
 export function getRole(roles: Collection<string, Role>, target: string): Role {
     //@ts-ignore
-    return roles.find(role => role.name === target)
+    return roles.find((role) => role.name === target)
 }

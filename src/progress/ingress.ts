@@ -13,7 +13,7 @@ import { isAdmin } from '../util/permissions'
 import { unaliasInvocation } from '../util/unalias'
 import { handleEasterEgg } from './eggs/easter'
 
-export async function handleMessage(msg: Message) {
+export async function handleProgressMessage(msg: Message) {
     // Get user or create one if it doesn't exist
     const authorId = msg.author.id
     let user = await User.findOne({ discordId: authorId })

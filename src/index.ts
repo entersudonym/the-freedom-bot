@@ -2,13 +2,14 @@ import { Client, TextChannel, User as DiscordUser, Message } from 'discord.js'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import config from './config/config'
-import { handleMessage } from './handlers/ingress'
+import { handleProgressMessage } from './progress/ingress'
 import { getExitMessage, getWelcomeMessage } from './data/messages'
 import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
 import { startBumpingServer } from './cron'
+import { handleOffTopicMessage } from './misc/handler'
 const client = new Client()
 
 // Initializes the connection to Discord and the database
@@ -32,7 +33,14 @@ init().then(async () => {
         if (!shouldRespond(msg)) return
 
         try {
-            await handleMessage(msg)
+            if (
+                msg.content.startsWith('!') &&
+                msg.channel.id === config.channels.progressReporting
+            ) {
+                await handleProgressMessage(msg)
+            } else if (msg.channel.id === config.channels.offTopic) {
+                await handleOffTopicMessage(msg)
+            }
         } catch (e) {
             msg.channel.send(
                 `There was an error with the bot. The ${tagR(
