@@ -4,6 +4,7 @@ node_modules/
 build/
 tmp/
 temp/
+.DS_Store
 
 config/
 ormconfig.json
