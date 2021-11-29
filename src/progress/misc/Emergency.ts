@@ -11,7 +11,9 @@ export default class EmergencyHandler extends AbstractHandler {
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {
-        const response = await axios.get(config.urls.emergency)
-        return msg.channel.send(response.data)
+        // const response = await axios.get(config.urls.emergency)
+        return msg.channel.send(
+            'This command no longer works and will be soon removed from the bot. You should not need memes and GIFs to help you avoid relapse. Use of such sources indicates a reliance on motivation instead of discipline.',
+        )
     }
 }

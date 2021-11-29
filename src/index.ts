@@ -8,7 +8,6 @@ import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
-import { handleOffTopicMessage } from './misc/handler'
 const client = new Client()
 
 // Initializes the connection to Discord and the database
@@ -36,8 +35,6 @@ init().then(async () => {
                 msg.channel.id === config.channels.progressReporting
             ) {
                 await handleProgressMessage(msg)
-            } else if (msg.channel.id === config.channels.offTopic) {
-                await handleOffTopicMessage(msg)
             }
         } catch (e) {
             msg.channel.send(
