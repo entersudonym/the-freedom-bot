@@ -24,14 +24,14 @@ export default class SetDayHandler extends AbstractDayHandler {
         user: User,
         command: Command,
         day: number,
-        points: number
+        points: number,
     ): Promise<number> {
         await Report.create({
             user,
             points,
             day,
             command,
-            isRegression: false
+            isRegression: false,
         }).save()
 
         user.points += points
@@ -54,24 +54,24 @@ export default class SetDayHandler extends AbstractDayHandler {
 
         if (!lastSetDay) {
             // User is setting their day for the first time
-            const totalPoints = await this.addReportAndUpdateUser(user, cmd, day, day)
+            if (day > 0) {
+                return msg.reply(
+                    'Welcome to the Freedom Academy! Since you are beginning your journey with us, please set your NoFap day to 0.',
+                )
+            }
+
+            // Returns total points, but we don't need to display that when days are first set to 0
+            await this.addReportAndUpdateUser(user, cmd, day, day)
             if (day === 0) {
                 return msg.reply(`your day has been set to 0. Get excited to make some progress!`)
             }
-
-            return msg.reply(
-                `good job on setting your day for the first time. You now have ${pluralize(
-                    totalPoints,
-                    'point'
-                )}.`
-            )
         }
 
         // User has set day before. Verify that it's ascending.
         const lastDay = lastSetDay.day
         if (lastDay >= day) {
             return msg.reply(
-                `your last-recorded day is ${lastDay}. You must !relapse or set something higher.`
+                `your last-recorded day is ${lastDay}. You must !relapse or set something higher.`,
             )
         }
 
@@ -81,10 +81,11 @@ export default class SetDayHandler extends AbstractDayHandler {
         if (desiredNewDays > actualElapsedDays + 2) {
             const mod = MiscServerRoles.Moderator
             return msg.reply(
-                `you should be at around day ${lastDay +
-                    actualElapsedDays}, so you can't set yourself to day ${day}. Contact a ${tagR(
-                    mod
-                )} if you need assistance.`
+                `you should be at around day ${
+                    lastDay + actualElapsedDays
+                }, so you can't set yourself to day ${day}. Contact a ${tagR(
+                    mod,
+                )} if you need assistance.`,
             )
         }
 
@@ -96,8 +97,8 @@ export default class SetDayHandler extends AbstractDayHandler {
             `congrats on reaching day ${day}. You earned ${pluralize(
                 newPoints,
                 'point',
-                'new'
-            )} and now have ${pluralize(totalPoints, 'point')} total.`
+                'new',
+            )} and now have ${pluralize(totalPoints, 'point')} total.`,
         )
     }
 }

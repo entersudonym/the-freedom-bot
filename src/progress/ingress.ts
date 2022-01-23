@@ -38,7 +38,7 @@ export async function handleProgressMessage(msg: Message) {
     const lastSetDay = await getLastSetDay(user)
     if (invocation !== Invocations.SetDay && !lastSetDay) {
         return msg.reply(
-            `you need to set your day first using the **!${Invocations.SetDay} <day>** command.`,
+            `you must start tracking your progress with The Freedom Academy by running the **!${Invocations.SetDay} 0** command.`,
         )
     }
 
