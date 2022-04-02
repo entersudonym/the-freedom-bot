@@ -19,7 +19,7 @@ export default class TimeZoneHandler extends AbstractHandler {
 
         if (lastSpaceIndex === -1 || timeZone.length === 0) {
             return msg.reply(
-                `to set your timezone, type **!${InfoInvocations.Timezone} <time_zone>**, using the "TZ database name" from ${this.ZoneChart}.`
+                `to set your timezone, visit https://www.joinfreedomacademy.com/timezone and follow the instructions.`,
             )
         }
 
