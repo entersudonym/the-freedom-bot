@@ -19,7 +19,8 @@ export class Command extends BaseEntity {
         nullable: false,
         unique: true,
     })
-    invocation: Invocations | InfoInvocations
+    // invocation: Invocations | InfoInvocations
+    invocation: string
 
     @Column({ type: 'float', nullable: true }) // Allow nullability for info or info commands
     points: number
