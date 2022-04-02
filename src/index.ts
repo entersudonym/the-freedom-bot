@@ -46,18 +46,22 @@ init().then(async () => {
             const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
 
             const botChannel = getChannelFromClient(client, config.channels.botTalk)
-            ;(botChannel as TextChannel).send(context + e)
+            ;(botChannel as unknown as TextChannel).send(context + e)
         }
     })
 
     client.on('guildMemberAdd', (member) => {
         const channel = getChannelFromClient(client, config.channels.newComers)
-        ;(channel as TextChannel).send(getWelcomeMessage((member.user as DiscordUser).id))
+        ;(channel as unknown as TextChannel).send(
+            getWelcomeMessage((member.user as DiscordUser).id),
+        )
     })
 
     client.on('guildMemberRemove', async (member) => {
         // TODO(entersudonym): Remove the user from the database, and all associated data.
         const channel = getChannelFromClient(client, config.channels.exit)
-        ;(channel as TextChannel).send(getExitMessage((member.user as DiscordUser).username))
+        ;(channel as unknown as TextChannel).send(
+            getExitMessage((member.user as DiscordUser).username),
+        )
     })
 })
