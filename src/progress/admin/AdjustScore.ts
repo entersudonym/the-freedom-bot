@@ -16,8 +16,6 @@ export default class AdminAdjustScore extends AbstractHandler {
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
         // TODO: Maybe figure out a way to make this mentionedUser part of the class declaration?
-        // TODO: Figure out why ts-node doesn't like using the `first()` method on the collection
-        //@ts-ignore
         const mentionedUser = msg.mentions.members.first()
         const taggedUser = await User.findOne({ discordId: mentionedUser.user.id })
 

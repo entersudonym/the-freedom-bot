@@ -39,8 +39,8 @@ init().then(async () => {
         } catch (e) {
             msg.channel.send(
                 `There was an error with the bot. The ${tagR(
-                    MiscServerRoles.TechGuy,
-                )}s have been notified. Please temporarily refrain from running commands.`,
+                    MiscServerRoles.TechGuy
+                )}s have been notified. Please temporarily refrain from running commands.`
             )
 
             const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
@@ -53,7 +53,7 @@ init().then(async () => {
     client.on('guildMemberAdd', (member) => {
         const channel = getChannelFromClient(client, config.channels.newComers)
         ;(channel as unknown as TextChannel).send(
-            getWelcomeMessage((member.user as DiscordUser).id),
+            getWelcomeMessage((member.user as DiscordUser).id)
         )
     })
 
@@ -61,7 +61,7 @@ init().then(async () => {
         // TODO(entersudonym): Remove the user from the database, and all associated data.
         const channel = getChannelFromClient(client, config.channels.exit)
         ;(channel as unknown as TextChannel).send(
-            getExitMessage((member.user as DiscordUser).username),
+            getExitMessage((member.user as DiscordUser).username)
         )
     })
 })

@@ -10,8 +10,6 @@ export default class AdminViewStreakHandler extends AbstractHandler {
     }
 
     protected async handler(_user: User, _cmd: Command, msg: Message): Promise<any> {
-        // TODO: Figure out why ts-node doesn't like using the `first()` method on the collection
-        //@ts-ignore
         const mentionedUser = msg.mentions.users.first()
 
         const user = await User.findOne({ discordId: mentionedUser.id })

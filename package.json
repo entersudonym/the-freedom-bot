@@ -3,23 +3,24 @@
    "version": "0.0.1",
    "description": "The hardest victory is over self.",
    "devDependencies": {
-      "@types/node": "^8.10.59",
-      "ts-node": "3.3.0",
+      "@types/node": "^17.0.42",
+      "@types/ws": "^8.5.3",
       "typescript": "3.3.3333"
    },
    "dependencies": {
-      "@types/axios": "^0.14.0",
+      "@discordjs/builders": "^0.15.0",
+      "@discordjs/rest": "^0.5.0",
       "@types/moment": "^2.13.0",
       "@types/moment-timezone": "^0.5.13",
-      "axios": "^0.19.2",
+      "discord-api-types": "^0.33.5",
       "discord.js": "^12.4.1",
       "moment": "^2.24.0",
       "moment-timezone": "^0.5.28",
       "mysql": "^2.14.1",
-      "reflect-metadata": "^0.1.10",
+      "reflect-metadata": "^0.1.13",
       "typeorm": "^0.2.24"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "tsc && node ./dist/index.js"
    }
 }
