@@ -1,4 +1,7 @@
-import { Client, TextChannel, User as DiscordUser, Message } from 'discord.js'
+import { Client, Intents, TextChannel, User as DiscordUser } from 'discord.js'
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { REST } from '@discordjs/rest'
+import { Routes, InteractionType } from 'discord-api-types/v9'
 import 'reflect-metadata'
 import { createConnection } from 'typeorm'
 import config from './config/config'
@@ -8,23 +11,43 @@ import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
-const client = new Client()
+
+const client = new Client({ intents: new Intents(Intents.FLAGS.GUILD_MEMBERS) })
+const restClient = new REST({ version: '9' }).setToken(config.key)
 
 // Initializes the connection to Discord and the database
 async function init() {
     await createConnection()
     // Ensure that there are commands in the database
-    const numberOfCommands = (await Command.findAndCount())[1]
-    if (!numberOfCommands) {
+    const [commands, numCommands] = await Command.findAndCount()
+    if (!numCommands) {
         console.error('No commands found! Did you populate yet?')
         process.exit(1)
     }
 
+    const slashCommandsBody = commands
+        .map((c) => new SlashCommandBuilder().setName(c.invocation).setDescription(c.description))
+        .map((sc) => sc.toJSON())
+
     await client.login(config.key)
+
+    try {
+        await restClient.put(Routes.applicationGuildCommands(config.appId, config.guildId), {
+            body: slashCommandsBody,
+        })
+        console.log('Sucessfully registered application commands')
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 init().then(async () => {
     console.log('Discord and database initialization complete')
+
+    client.on('interactionCreate', (interaction) => {
+        if (!interaction.isCommand()) return
+        console.log(interaction)
+    })
 
     client.on('message', async (msg) => {
         if (msg.author.bot) return

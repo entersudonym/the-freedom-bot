@@ -1,4 +1,4 @@
-import { MessageEmbed, Message } from 'discord.js'
+import { MessageEmbed, MessagePayload, Message, ColorResolvable } from 'discord.js'
 import { tagU } from './tagger'
 import { Command } from '../entity/Command'
 
@@ -16,39 +16,42 @@ const INFO_COLOR = '#3498db' // blue
  * @param description the description to follow the user tag
  */
 export function buildEmbed(
+    msg: Message,
     status: 'S' | 'I' | 'E',
     title: string,
     id: string,
     description: string
-): MessageEmbed {
-    let color = ''
+): MessagePayload {
+    let color: ColorResolvable = 'DEFAULT'
     switch (status) {
         case 'S':
-            color = SUCCESS_COLOR
+            color = 'GREEN'
             break
         case 'I':
-            color = INFO_COLOR
+            color = 'BLUE'
             break
         case 'E':
-            color = ERROR_COLOR
+            color = 'RED'
     }
 
-    return new MessageEmbed()
+    const embed = new MessageEmbed()
         .setColor(color)
         .setTitle(title)
         .setDescription(`${tagU(id)}, ${description}`)
+
+    return new MessagePayload(msg, { embeds: [embed] })
 }
 
 export function successReply(msg: Message, title: string, description: string) {
-    return msg.channel.send(buildEmbed('S', title, msg.author.id, description))
+    return msg.channel.send(buildEmbed(msg, 'S', title, msg.author.id, description))
 }
 
 export function infoReply(msg: Message, title: string, description: string) {
-    return msg.channel.send(buildEmbed('I', title, msg.author.id, description))
+    return msg.channel.send(buildEmbed(msg, 'I', title, msg.author.id, description))
 }
 
 export function errorReply(msg: Message, title: string, description: string) {
-    return msg.channel.send(buildEmbed('E', title, msg.author.id, description))
+    return msg.channel.send(buildEmbed(msg, 'E', title, msg.author.id, description))
 }
 
 /**
@@ -57,7 +60,7 @@ export function errorReply(msg: Message, title: string, description: string) {
  * happens at the top-level (i.e. index.ts).
  * @param suggestions a list of valid commands
  */
-export function sendSuggestions(suggestions: Command[]): MessageEmbed {
+export function sendSuggestions(msg: Message, suggestions: Command[]): MessagePayload {
     let description = suggestions.length === 0 ? '' : 'Here are some similar commands: '
     let baseEmbed = new MessageEmbed()
         .setColor(INFO_COLOR)
@@ -68,7 +71,7 @@ export function sendSuggestions(suggestions: Command[]): MessageEmbed {
         baseEmbed.addField(`!${suggestion.invocation}`, suggestion.description)
     }
 
-    return baseEmbed
+    return new MessagePayload(msg, { embeds: [baseEmbed] })
 }
 
 /**

@@ -7,9 +7,11 @@
         "preserveConstEnums": true,
         "outDir": "dist",
         "sourceMap": false,
+        "target": "ES2017",
         "lib": ["ES2015"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "skipLibCheck": true
     },
     "include": ["./src/**/*.ts"],
     "exclude": ["node_modules"]
