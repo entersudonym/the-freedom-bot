@@ -9,7 +9,9 @@ import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
 
-const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] })
+const client = new Client({
+    intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+})
 let dbConnection: Connection | undefined
 
 run()
