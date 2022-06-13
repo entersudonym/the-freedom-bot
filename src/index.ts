@@ -1,9 +1,6 @@
 import { Client, Intents, TextChannel, User as DiscordUser } from 'discord.js'
-import { SlashCommandBuilder } from '@discordjs/builders'
-import { REST } from '@discordjs/rest'
-import { Routes, InteractionType } from 'discord-api-types/v9'
 import 'reflect-metadata'
-import { createConnection } from 'typeorm'
+import { Connection, createConnection } from 'typeorm'
 import config from './config/config'
 import { handleProgressMessage } from './progress/ingress'
 import { getExitMessage, getWelcomeMessage } from './data/messages'
@@ -12,44 +9,19 @@ import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
 
-const client = new Client({ intents: new Intents(Intents.FLAGS.GUILD_MEMBERS) })
-const restClient = new REST({ version: '9' }).setToken(config.key)
+const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] })
+let dbConnection: Connection | undefined
 
-// Initializes the connection to Discord and the database
-async function init() {
-    await createConnection()
-    // Ensure that there are commands in the database
-    const [commands, numCommands] = await Command.findAndCount()
-    if (!numCommands) {
-        console.error('No commands found! Did you populate yet?')
-        process.exit(1)
-    }
+run()
 
-    const slashCommandsBody = commands
-        .map((c) => new SlashCommandBuilder().setName(c.invocation).setDescription(c.description))
-        .map((sc) => sc.toJSON())
+// Runs the bot by initializing the connections to Discord and the database, and starting to listen
+// to events.
+async function run() {
+    await init()
 
-    await client.login(config.key)
-
-    try {
-        await restClient.put(Routes.applicationGuildCommands(config.appId, config.guildId), {
-            body: slashCommandsBody,
-        })
-        console.log('Sucessfully registered application commands')
-    } catch (e) {
-        console.error(e)
-    }
-}
-
-init().then(async () => {
     console.log('Discord and database initialization complete')
 
-    client.on('interactionCreate', (interaction) => {
-        if (!interaction.isCommand()) return
-        console.log(interaction)
-    })
-
-    client.on('message', async (msg) => {
+    client.on('messageCreate', async (msg) => {
         if (msg.author.bot) return
 
         try {
@@ -87,4 +59,19 @@ init().then(async () => {
             getExitMessage((member.user as DiscordUser).username)
         )
     })
-})
+}
+
+// Initializes the connection to Discord and the database
+async function init() {
+    if (!dbConnection?.isConnected) {
+        dbConnection = await createConnection()
+    }
+    client.login(config.key)
+
+    // Ensure that there are commands in the database
+    const [_, numCommands] = await Command.findAndCount()
+    if (!numCommands) {
+        console.error('No commands found! Did you populate yet?')
+        process.exit(1)
+    }
+}
