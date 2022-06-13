@@ -1,6 +1,6 @@
-import { Client, TextChannel, User as DiscordUser, Message } from 'discord.js'
+import { Client, Intents, TextChannel, User as DiscordUser } from 'discord.js'
 import 'reflect-metadata'
-import { createConnection } from 'typeorm'
+import { Connection, createConnection } from 'typeorm'
 import config from './config/config'
 import { handleProgressMessage } from './progress/ingress'
 import { getExitMessage, getWelcomeMessage } from './data/messages'
@@ -8,25 +8,20 @@ import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
 import { Command } from './entity/Command'
-const client = new Client()
 
-// Initializes the connection to Discord and the database
-async function init() {
-    await createConnection()
-    // Ensure that there are commands in the database
-    const numberOfCommands = (await Command.findAndCount())[1]
-    if (!numberOfCommands) {
-        console.error('No commands found! Did you populate yet?')
-        process.exit(1)
-    }
+const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] })
+let dbConnection: Connection | undefined
 
-    await client.login(config.key)
-}
+run()
 
-init().then(async () => {
+// Runs the bot by initializing the connections to Discord and the database, and starting to listen
+// to events.
+async function run() {
+    await init()
+
     console.log('Discord and database initialization complete')
 
-    client.on('message', async (msg) => {
+    client.on('messageCreate', async (msg) => {
         if (msg.author.bot) return
 
         try {
@@ -39,8 +34,8 @@ init().then(async () => {
         } catch (e) {
             msg.channel.send(
                 `There was an error with the bot. The ${tagR(
-                    MiscServerRoles.TechGuy,
-                )}s have been notified. Please temporarily refrain from running commands.`,
+                    MiscServerRoles.TechGuy
+                )}s have been notified. Please temporarily refrain from running commands.`
             )
 
             const context = `**${msg.author.username}** tried to run **${msg.content}**\n\n`
@@ -53,7 +48,7 @@ init().then(async () => {
     client.on('guildMemberAdd', (member) => {
         const channel = getChannelFromClient(client, config.channels.newComers)
         ;(channel as unknown as TextChannel).send(
-            getWelcomeMessage((member.user as DiscordUser).id),
+            getWelcomeMessage((member.user as DiscordUser).id)
         )
     })
 
@@ -61,7 +56,22 @@ init().then(async () => {
         // TODO(entersudonym): Remove the user from the database, and all associated data.
         const channel = getChannelFromClient(client, config.channels.exit)
         ;(channel as unknown as TextChannel).send(
-            getExitMessage((member.user as DiscordUser).username),
+            getExitMessage((member.user as DiscordUser).username)
         )
     })
-})
+}
+
+// Initializes the connection to Discord and the database
+async function init() {
+    if (!dbConnection?.isConnected) {
+        dbConnection = await createConnection()
+    }
+    client.login(config.key)
+
+    // Ensure that there are commands in the database
+    const [_, numCommands] = await Command.findAndCount()
+    if (!numCommands) {
+        console.error('No commands found! Did you populate yet?')
+        process.exit(1)
+    }
+}

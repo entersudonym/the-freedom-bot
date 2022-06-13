@@ -32,13 +32,13 @@ export async function handleProgressMessage(msg: Message) {
     const handler = handlers.get(invocation)
     if (!handler) {
         const similarCommands = await findSimilarCommands(invocation, 3, isAdmin(msg.member))
-        return msg.channel.send(sendSuggestions(similarCommands))
+        return msg.channel.send(sendSuggestions(msg, similarCommands))
     }
 
     const lastSetDay = await getLastSetDay(user)
     if (invocation !== Invocations.SetDay && !lastSetDay) {
         return msg.reply(
-            `you must start tracking your progress with The Freedom Academy by running the **!${Invocations.SetDay} 0** command.`,
+            `you must start tracking your progress with The Freedom Academy by running the **!${Invocations.SetDay} 0** command.`
         )
     }
 

@@ -18,6 +18,7 @@ export default class FirstwatchHandler extends DefaultDiscipline {
     protected async handler(user: User, cmd: Command, msg: Message) {
         if (!user.timeZone) {
             const embed = buildEmbed(
+                msg,
                 'E',
                 'Timezone Required',
                 msg.author.id,
@@ -44,6 +45,7 @@ export default class FirstwatchHandler extends DefaultDiscipline {
 
         if (tooEarly) {
             const embed = buildEmbed(
+                msg,
                 'E',
                 'Too Early',
                 msg.author.id,
@@ -54,6 +56,7 @@ export default class FirstwatchHandler extends DefaultDiscipline {
 
         if (tooLate) {
             const embed = buildEmbed(
+                msg,
                 'E',
                 'Too Late',
                 msg.author.id,

@@ -1,4 +1,4 @@
-import { Client, Channel, GuildMember, Role } from 'discord.js'
+import { Client, Channel, GuildMember, Role, AnyChannel } from 'discord.js'
 import Collection from '@discordjs/collection'
 
 // Various utilities to help work around the more annoying parts of the discord.js library
@@ -7,7 +7,7 @@ import Collection from '@discordjs/collection'
  * Returns the channel with the ID `channelId` from `client`. Used to send message to a specific
  * channel that may be the channel from which a message originates.
  */
-export function getChannelFromClient(client: Client, channelId: string): Channel {
+export function getChannelFromClient(client: Client, channelId: string): AnyChannel {
     const channel = client.channels.cache.get(channelId)
     if (!channel) throw new Error(`Channel with id ${channelId} could not be found.`)
 

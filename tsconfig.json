@@ -1,14 +1,18 @@
 {
     "compilerOptions": {
-        "lib": ["es5", "es6"],
-        "target": "es5",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "./build",
+        "module": "CommonJS",
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "dist",
+        "sourceMap": false,
+        "target": "ES2017",
+        "lib": ["ES2015"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "sourceMap": true
+        "skipLibCheck": true
     },
-    "exclude": ["node_modules"],
-    "include": ["src"]
+    "include": ["./src/**/*.ts"],
+    "exclude": ["node_modules"]
 }

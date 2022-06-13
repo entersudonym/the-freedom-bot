@@ -16,8 +16,6 @@ export default class AdminModifyStreak extends AbstractDayHandler {
     }
 
     protected async handler(user: User, cmd: Command, msg: Message): Promise<any> {
-        // TODO: Figure out why ts-node doesn't like using the `first()` method on the collection
-        //@ts-ignore
         const mentionedUser = msg.mentions.members.first()
         const taggedUser = await User.findOne({ discordId: mentionedUser.user.id })
 
@@ -40,7 +38,7 @@ export default class AdminModifyStreak extends AbstractDayHandler {
             command: cmd,
             points: pointValue,
             isRegression: false,
-            day: newDay
+            day: newDay,
         }).save()
         taggedUser.points += pointValue
         await taggedUser.save()

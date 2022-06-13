@@ -6,10 +6,11 @@ import { buildEmbed } from '../../util/embeds'
 export const handleEasterEgg = (msg: Message, invocation: string): boolean => {
     if (invocation === EasterEggInvocations.DrillBrush) {
         const embed = buildEmbed(
+            msg,
             'S',
             'Drill Brush',
             msg.author.id,
-            `great job! While I can't award you points for this, I am certainly happy to hear the great news that you drillbrushed today.`,
+            `great job! While I can't award you points for this, I am certainly happy to hear the great news that you drillbrushed today.`
         )
 
         msg.channel.send(embed)

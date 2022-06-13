@@ -19,13 +19,14 @@ export default class DefaultDiscipline extends AbstractHandler {
             command: cmd,
             points: pointsToAward,
             isRegression: false,
-            day: null
+            day: null,
         }).save()
 
         user.points = user.points + pointsToAward
         await user.save()
 
         const embed = buildEmbed(
+            msg,
             'S',
             `${cmd.altName || cmd.name} Recorded`,
             msg.author.id,

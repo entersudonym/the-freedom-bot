@@ -2,8 +2,11 @@
 .vscode/
 node_modules/
 build/
+dist/
 tmp/
 temp/
 
 config/
 ormconfig.json
+
+.DS_store
