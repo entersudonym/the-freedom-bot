@@ -2,7 +2,6 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { User } from '../../entity/User'
 import { GuildMember } from 'discord.js'
-import AbstractDayHandler from '../abstract/AbstractDayHandler'
 import { Report } from '../../entity/Report'
 import { getLastSetDay } from '../../util/db'
 import moment = require('moment')
@@ -10,8 +9,9 @@ import { findRankFromValue, findRangeEntity } from '../../util/rangeFinder'
 import ranks, { IRank } from '../../data/ranks'
 import pluralize from '../../util/pluralize'
 import { getReflection } from '../../util/getReflection'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class RegressionHandler extends AbstractDayHandler {
+export default class RegressionHandler extends AbstractHandler {
     public constructor() {
         super(false, true, false, false)
     }
@@ -58,8 +58,6 @@ export default class RegressionHandler extends AbstractDayHandler {
 
         user.points = user.points - pointsToRemove
         await user.save()
-
-        await this.rerankStreaks(msg.member, lastSetDay.day, 0)
 
         const reflection = getReflection()
         return msg.reply(
