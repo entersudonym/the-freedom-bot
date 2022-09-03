@@ -10,34 +10,33 @@ const client = new Client({
         Intents.FLAGS.GUILD_PRESENCES]
 })
 
-client.on('ready',()=>{
+client.on('ready', () => {
     console.log("Running....");
     run()
 })
 
-async function run(){
+async function run() {
     await createConnection()
     const users = await User.find()
     const serverMembers = await fetchAllUsers()
 
-    users.forEach(async user=>{
+    users.forEach(async user => {
         const userID = user.discordId
         
-        if(!serverMembers.has( userID )){
+        if (!serverMembers.has(userID)){
             console.log("Removing " + (await client.users.fetch(userID)).username)
-            User.remove(user)
-        }
-        
+            //User.remove(user)
+        }    
     })
 }
 
-async function fetchAllUsers(){
+async function fetchAllUsers() {
     const userMap = new Map<string,string>()
     const server = await client.guilds.fetch(config.server)
     const membs = await server.members.fetch()
 
     membs.forEach(mem => userMap.set(mem.user.id, mem.user.username))
     return userMap
-    }
+}
 
 client.login(config.key)
