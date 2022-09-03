@@ -2,8 +2,7 @@ import { createConnection } from 'typeorm'
 import commands from '../data/commands'
 import { Command } from '../entity/Command'
 
-createConnection().then(async connection => {
-    let promises = []
+createConnection().then(async (connection) => {
     for (let command of commands) {
         const existing = await Command.findOne({ invocation: command.invocation })
 
@@ -13,16 +12,15 @@ createConnection().then(async connection => {
             existing.name = command.name
             existing.description = command.description
             existing.points = command.points
-            promises.push(existing.save())
+            await existing.save()
         } else {
             // Command doesn't already exist, so we create it.
-            promises.push(Command.create(command).save())
+            await Command.create(command).save()
         }
     }
 
     try {
-        await Promise.all(promises)
-        console.log(`Successfully created/updated ${promises.length} commands!`)
+        console.log(`Successfully created/updated ${commands.length} commands!`)
         connection.close()
     } catch (e) {
         console.error(`There was an error creating/updating commands: ${e}`)

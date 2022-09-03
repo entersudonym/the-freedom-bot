@@ -28,7 +28,6 @@ const commands: ICommand[] = [
         isDaily: true,
         isAdmin: false,
     },
-
     {
         name: 'Showing Gratefulness',
         altName: 'Gratefulness',
@@ -57,7 +56,6 @@ const commands: ICommand[] = [
         isDaily: true,
         isAdmin: false,
     },
-
     {
         name: 'Physical Fitness',
         altName: 'Workout',
