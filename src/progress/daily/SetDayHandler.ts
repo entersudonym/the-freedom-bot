@@ -2,14 +2,14 @@ import { Message } from 'discord.js'
 import { Command } from '../../entity/Command'
 import { Report } from '../../entity/Report'
 import { User } from '../../entity/User'
-import AbstractDayHandler from '../abstract/AbstractDayHandler'
 import { getLastSetDay } from '../../util/db'
 import moment = require('moment')
 import { tagR } from '../../util/tagger'
 import { MiscServerRoles } from '../../data/roles'
 import pluralize from '../../util/pluralize'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class SetDayHandler extends AbstractDayHandler {
+export default class SetDayHandler extends AbstractHandler {
     public constructor() {
         super(false, true, false, false)
     }
@@ -91,7 +91,7 @@ export default class SetDayHandler extends AbstractDayHandler {
 
         const newPoints = day - lastDay // guaranteed to be positive
         const totalPoints = await this.addReportAndUpdateUser(user, cmd, day, newPoints)
-        await this.rerankStreaks(msg.member, lastDay, day)
+
 
         return msg.reply(
             `congrats on reaching day ${day}. You earned ${pluralize(

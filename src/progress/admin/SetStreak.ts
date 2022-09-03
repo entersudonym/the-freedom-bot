@@ -6,9 +6,9 @@ import { parseNonZeroNumberFromString } from '../../util/parser'
 import { tagU } from '../../util/tagger'
 import pluralize from '../../util/pluralize'
 import { getLastSetDay } from '../../util/db'
-import AbstractDayHandler from '../abstract/AbstractDayHandler'
+import AbstractHandler from '../abstract/AbstractHandler'
 
-export default class AdminModifyStreak extends AbstractDayHandler {
+export default class AdminModifyStreak extends AbstractHandler {
     public constructor() {
         // Reranking handled inside here because the reranking happens on the tagged member, not the
         // person invoking the command.
@@ -43,7 +43,6 @@ export default class AdminModifyStreak extends AbstractDayHandler {
         taggedUser.points += pointValue
         await taggedUser.save()
 
-        await this.rerankStreaks(msg.member, prevDay, newDay)
         await this.rerank(mentionedUser, prevPoints, taggedUser.points)
 
         let verb = ''
