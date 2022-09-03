@@ -10,8 +10,6 @@ const client = new Client({
         Intents.FLAGS.GUILD_PRESENCES]
 })
 
-//standalone script
-
 client.on('ready',()=>{
     console.log("Running....");
     run()
@@ -35,7 +33,7 @@ async function run(){
 
 async function fetchAllUsers(){
     const userMap = new Map<string,string>()
-    const server = await client.guilds.fetch('705936078921793546')
+    const server = await client.guilds.fetch(config.server)
     const membs = await server.members.fetch()
 
     membs.forEach(mem => userMap.set(mem.user.id, mem.user.username))
@@ -43,5 +41,3 @@ async function fetchAllUsers(){
     }
 
 client.login(config.key)
-
-//ids 6 9 11
