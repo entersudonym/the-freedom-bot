@@ -15,7 +15,7 @@ export class Report extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { onDelete: 'CASCADE'})
     @JoinColumn()
     user: User
 
