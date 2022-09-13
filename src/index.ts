@@ -3,7 +3,6 @@ import 'reflect-metadata'
 import { Connection, createConnection } from 'typeorm'
 import config from './config/config'
 import { handleProgressMessage } from './progress/ingress'
-import { getExitMessage, getWelcomeMessage } from './data/messages'
 import { getChannelFromClient } from './util/discord'
 import { tagR } from './util/tagger'
 import { MiscServerRoles } from './data/roles'
@@ -49,21 +48,6 @@ async function run() {
             const botChannel = getChannelFromClient(client, config.channels.botTalk)
             ;(botChannel as unknown as TextChannel).send(context + e)
         }
-    })
-
-    client.on('guildMemberAdd', (member) => {
-        const channel = getChannelFromClient(client, config.channels.newComers)
-        ;(channel as unknown as TextChannel).send(
-            getWelcomeMessage((member.user as DiscordUser).id)
-        )
-    })
-
-    client.on('guildMemberRemove', async (member) => {
-        // TODO(entersudonym): Remove the user from the database, and all associated data.
-        const channel = getChannelFromClient(client, config.channels.exit)
-        ;(channel as unknown as TextChannel).send(
-            getExitMessage((member.user as DiscordUser).username)
-        )
     })
 }
 
