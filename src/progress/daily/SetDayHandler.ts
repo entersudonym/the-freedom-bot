@@ -78,7 +78,7 @@ export default class SetDayHandler extends AbstractHandler {
         // Verify that the date isn't wildly more than it's supposed to be.
         const desiredNewDays = day - lastDay
         const actualElapsedDays = moment().diff(moment(lastSetDay.date), 'days')
-        if (desiredNewDays > actualElapsedDays + 2) {
+        if (desiredNewDays !== actualElapsedDays) {
             const mod = MiscServerRoles.Moderator
             return msg.reply(
                 `you should be at around day ${
