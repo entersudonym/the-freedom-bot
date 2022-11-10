@@ -75,7 +75,7 @@ export default class SetDayHandler extends AbstractHandler {
             )
         }
 
-        // Verify that the date isn't wildly more than it's supposed to be.
+        // Verify that the date is same as expected
         const desiredNewDays = day - lastDay
         const actualElapsedDays = moment().diff(moment(lastSetDay.date), 'days')
         if (desiredNewDays !== actualElapsedDays) {
