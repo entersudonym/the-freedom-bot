@@ -17,7 +17,7 @@ const client = new Client({
         Intents.FLAGS.GUILD_PRESENCES,
 })
 let dbConnection: Connection | undefined
-
+const postChannels = [config.channels.journal, config.channels.thankyou]
 run()
 
 // Runs the bot by initializing the connections to Discord and the database, and starting to listen
@@ -32,8 +32,9 @@ async function run() {
 
         try {
             if (
-                msg.content.startsWith('!') &&
-                msg.channel.id === config.channels.progressReporting
+                (msg.content.startsWith('!') &&
+                msg.channel.id === config.channels.progressReporting) ||
+                postChannels.includes(msg.channel.id)
             ) {
                 await handleProgressMessage(msg)
             }

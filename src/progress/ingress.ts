@@ -12,18 +12,25 @@ import handlers from './handlers'
 import { isAdmin } from '../util/permissions'
 import { unaliasInvocation } from '../util/unalias'
 import { handleEasterEgg } from './eggs/easter'
+import config from '../config/config'
+import {getInvocationfromChannel} from '../util/channelMapping'
+
 
 export async function handleProgressMessage(msg: Message) {
     // Get user or create one if it doesn't exist
     const authorId = msg.author.id
+    const isPost = (msg.channel.id != config.channels.progressReporting)
     let user = await User.findOne({ discordId: authorId })
     if (!user) {
         user = await createUser(authorId)
     }
-
+    
     // Get the appropriate handler, instantiate it, and run an evaluation
-    const invocation = unaliasInvocation(getInvocationFromMessage(msg.content))
-
+    const invocation = isPost?
+    getInvocationfromChannel(msg.channel.id):
+    unaliasInvocation(getInvocationFromMessage(msg.content))
+    
+    
     const wasEasterEgg = handleEasterEgg(msg, invocation)
     if (wasEasterEgg) {
         return
@@ -36,7 +43,7 @@ export async function handleProgressMessage(msg: Message) {
     }
 
     const lastSetDay = await getLastSetDay(user)
-    if (invocation !== Invocations.SetDay && !lastSetDay) {
+    if (invocation !== Invocations.SetDay && !lastSetDay && !isPost) {
         return msg.reply(
             `you must start tracking your progress with The Freedom Academy by running the **!${Invocations.SetDay} 0** command.`
         )
