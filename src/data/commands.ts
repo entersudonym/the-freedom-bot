@@ -20,6 +20,15 @@ const commands: ICommand[] = [
         isAdmin: false,
     },
     {
+        name: 'Making Your Bed',
+        altName: 'Bed Making',
+        description: `Record if you made your bed first thing in the morning.`,
+        invocation: Invocations.MakeBed,
+        points: 0.15,
+        isDaily: true,
+        isAdmin: false,
+    },
+    {
         name: 'Showing Gratefulness',
         altName: 'Gratefulness',
         description: 'Record whether you noted three things for which you are grateful today.',
@@ -38,15 +47,6 @@ const commands: ICommand[] = [
         isAdmin: false,
     },
     {
-        name: 'Making Your Bed',
-        altName: 'Bed Making',
-        description: `Record if you made your bed first thing in the morning.`,
-        invocation: Invocations.MakeBed,
-        points: 0.15,
-        isDaily: true,
-        isAdmin: false,
-    },
-    {
         name: 'Meditation and Mindfulness',
         altName: 'Meditation/Mindfulness',
         description:
@@ -57,21 +57,21 @@ const commands: ICommand[] = [
         isAdmin: false,
     },
     {
-        name: 'NoFap',
-        altName: 'NoFap',
-        description: 'Set your current streak by typing **!setday <day>**.',
-        invocation: Invocations.SetDay,
-        points: 1,
-        isDaily: true,
-        isAdmin: false,
-    },
-    {
         name: 'Physical Fitness',
         altName: 'Workout',
         description:
             '30 minutes of intense cardio, heavy weight-lifting session, 10,000 steps, etc.',
         invocation: Invocations.Workout,
         points: 0.5,
+        isDaily: true,
+        isAdmin: false,
+    },
+    {
+        name: 'NoFap',
+        altName: 'NoFap',
+        description: 'Set your current streak by typing **!setday <day>**.',
+        invocation: Invocations.SetDay,
+        points: 1,
         isDaily: true,
         isAdmin: false,
     },
