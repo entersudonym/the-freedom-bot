@@ -6,6 +6,7 @@ import AdminViewScoreHandler from './admin/ViewScore'
 import AdminViewStreakHandler from './admin/ViewStreak'
 import DefaultDiscipline from './daily/DefaultDiscipline'
 import FirstwatchHandler from './daily/FirstwatchHandler'
+import { ReportedDisciplineHandler } from './daily/ReportedHandler'
 import SetDayHandler from './daily/SetDayHandler'
 import EmergencyHandler from './misc/Emergency'
 import GetDayHandler from './misc/GetDay'
@@ -22,12 +23,12 @@ const handlers: Map<string, AbstractHandler> = new Map()
 const DailyDisciplineHandler = new DefaultDiscipline()
 handlers.set(Invocations.Affirmation, DailyDisciplineHandler)
 handlers.set(Invocations.ColdShower, DailyDisciplineHandler)
-handlers.set(Invocations.Gratefulness, DailyDisciplineHandler)
 handlers.set(Invocations.MakeBed, DailyDisciplineHandler)
 handlers.set(Invocations.Meditation, DailyDisciplineHandler)
 handlers.set(Invocations.Workout, DailyDisciplineHandler)
 // TODO: Verify that people sent a message in journals!
-handlers.set(Invocations.Journal, DailyDisciplineHandler)
+handlers.set(Invocations.Journal, new ReportedDisciplineHandler())
+handlers.set(Invocations.Gratefulness, new ReportedDisciplineHandler())
 handlers.set(Invocations.Firstwatch, new FirstwatchHandler())
 handlers.set(Invocations.SetDay, new SetDayHandler())
 
