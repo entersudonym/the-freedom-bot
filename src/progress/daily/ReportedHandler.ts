@@ -13,7 +13,7 @@ import { InfoInvocations } from "../../data/invocations";
 import { getChannelIDfromInvocation } from "../../util/channelMapping";
 import { getChannelFromClient } from "../../util/discord";
 
-export class ReportedDisciplineHandler extends AbstractHandler{
+export default class ReportedDisciplineHandler extends AbstractHandler{
     public constructor(){
         super(false, true, false, false)
     }
